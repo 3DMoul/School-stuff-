@@ -1,0 +1,329 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace blogg
+{
+    internal class Program
+    {
+        //här är en metod för att skriva ut vektorerna (inläggen)
+        static void SkrivAllInlägg(List<string[]> listablog)
+        {
+            
+            for (int i = 0; i < listablog.Count; i++)
+            {
+
+                Console.WriteLine("_________________________");
+                Console.WriteLine("blogg nr: " + (i + 1));
+                Console.WriteLine("skapades: " + listablog[i][0]);
+                Console.WriteLine("Tittlen är:\n" + listablog[i][1]);
+                Console.WriteLine("och inlägget skriver:\n" + listablog[i][2]);
+                
+            }
+
+        }
+         static void SökInlägg(List<string[]> sökblog)
+        {
+                            
+              string inläggsökning = Console.ReadLine();
+
+              bool sökning = false;
+                            
+              // gör en for loop så den går igenom alla vektorer i listan
+                            
+              for (int i = 0; i < sökblog.Count; i++)
+              {
+
+                //och när man söker på en spesefik titel så kommer det inlägget upp
+                if (inläggsökning == sökblog[i][1])
+                {
+                    
+                    sökning = true;
+                    
+                    Console.WriteLine("_________________________");
+                    Console.WriteLine("blogg nr: " + (i + 1));
+                    Console.WriteLine("skapades: " + sökblog[i][0]);
+                    Console.WriteLine("Tittlen är:\n" + sökblog[i][1]);
+                    Console.WriteLine("och inlägget skriver:\n" + sökblog[i][2]);
+
+
+                }
+
+              }
+             
+
+
+              if (sökning == false)
+              {
+                           
+                //här har jag så att ifal man skriver ett inlägg som inte finnns så säger den det
+                                
+                Console.WriteLine("detta inlägg finns inte");
+
+              }
+            
+        }
+            
+        static void RaderingsInlägg(List<string[]> raderainlägg)
+        {
+            
+            string inläggsökning = Console.ReadLine();
+                  
+            bool sökning = false;
+                
+            // gör en for loop så den går igenom alla vektorer i listan
+
+            for (int i = 0; i < raderainlägg.Count; i++)                   
+            {
+                  
+                //och när man söker på en spesefik titel så kommer det inlägget upp
+                                        
+                if (inläggsökning == raderainlägg[i][1])
+                                        
+                {
+                                            sökning = true;
+
+                    raderainlägg.Remove(raderainlägg[i]);
+                  
+                }
+
+                                    
+            }
+                  
+            if (sökning == false)
+            {
+                    
+                //här har jag så att ifal man skriver ett inlägg som inte finnns så säger den det
+                    
+                Console.WriteLine("\ndu kan bara radera inlägg som finns");
+                 
+            }
+
+        }
+        static void RedigeringInlägg(List<string[]> redigeringinlägg)
+        {
+
+            string inläggsökning = Console.ReadLine(); 
+            
+            bool sökning = false;     
+
+            // gör en for loop så den går igenom alla vektorer i listan
+
+            for (int i = 0; i < redigeringinlägg.Count; i++)                   
+            {
+             
+                //och när man söker på en spesefik titel så kommer det inlägget upp
+
+                                        
+                if (inläggsökning == redigeringinlägg[i][1])                 
+                {
+                                            
+                    sökning = true;
+                    
+                    Console.Write("\nredigerar inlägg: ");
+
+                    redigeringinlägg[i][2] = redigeringinlägg[i][2] +" "+ Console.ReadLine();
+                  
+                }
+                   
+            }
+                 
+            if (sökning == false)                   
+            {
+                     
+                //här har jag så att ifal man skriver ett inlägg som inte finnns så säger den det
+                     
+                Console.WriteLine("\ndu kan bara redigera inlägg som finns");
+                   
+            }
+        }
+        static void SluttavKodblock()
+        {
+                Console.WriteLine("\n\tklicka ENTER");
+                Console.ReadLine();
+        }
+
+        static void TryParseFel()
+        {
+            
+            Console.WriteLine("\nfel! du måste välja mellan menyvalen");
+
+        }
+
+
+
+        static void Main(string[] args)
+        {
+            //här skapar jag listan som jag lägger loggarna i
+            List<string[]> Inläggvektorlista = new List<string[]>();
+            
+            bool running = true;
+
+            SluttavKodblock();
+
+            while (running == true) 
+            {
+
+                
+               // har detta så att det ser snyggare ut när man går igenom menyn
+                Console.Clear();
+                //här är menyn
+
+                Console.WriteLine("\n\tvälkomen till bloggen\n");
+                Console.WriteLine("---------------------");
+                Console.WriteLine("[1] skriv nytt inlägg");
+                Console.WriteLine("[2] skriv ut alla inlägg");
+                Console.WriteLine("[3] sök på inlägg");
+                Console.WriteLine("[4] radera eller redigera inlägg");
+                Console.WriteLine("[5] avsluta programm");
+                Console.WriteLine("---------------------\n");
+
+                Console.Write("\tVälj: ");
+
+
+
+                //har dett för att mot verka körtidsfel
+                Int32.TryParse(Console.ReadLine(), out int menyval);
+
+                
+                switch (menyval)
+                {
+                    
+                    case 1:
+
+                        Console.Clear();
+                        //skapar vektorn här så att det blir en split ny vektor varje gång jag ska lägga in ett inlägg
+                        string[] inlägg = new string[3];
+                        DateTime bloggdatum = DateTime.Now;
+                        //jag la in så dem sparar datumet som inlägget gjordes
+                        inlägg[0] = bloggdatum.ToShortDateString() +" "+ bloggdatum.ToShortTimeString();
+                        
+                        Console.WriteLine("\n-------------------------");
+                        Console.WriteLine("skriv in ditt inlägg\n");
+                        Console.WriteLine("skriv titteln på inlägget\n");
+                        inlägg[1] = Console.ReadLine();
+                        Console.WriteLine("-------------------------");
+                        Console.WriteLine("skriv ditt inlägg\n");
+                        inlägg[2] = Console.ReadLine();
+                        //här för att lägga till inlägget i blogg listan
+                        Inläggvektorlista.Add(inlägg);
+
+
+                        break;
+
+                    case 2:
+                        
+                        Console.Clear();
+                        Console.WriteLine("skriver ut alla inlägg");
+
+                        SkrivAllInlägg(Inläggvektorlista);
+
+                        SluttavKodblock();
+
+                        break;
+
+                    case 3:
+                            
+                        //använder clear för att göra det snyggare   
+                        Console.Clear(); 
+                        Console.WriteLine("\n\tsök efter ditt inlägg:\n");  
+                        Console.Write("sökning: ");
+
+                        SökInlägg(Inläggvektorlista);
+                        SluttavKodblock();
+
+                        break;
+
+                    case 4:
+                        
+                        bool runningloop = true;
+                        
+                        Console.Clear();
+                        while (runningloop == true)
+                        {
+                            Console.WriteLine("---------------------");
+                            Console.WriteLine("vad vill du göra");
+                            Console.WriteLine("[1] Radera");
+                            Console.WriteLine("[2] Redigera");
+                            Console.WriteLine("[3] gå tillbacks till menyn");
+                            Console.WriteLine("---------------------\n");
+                            Int32.TryParse(Console.ReadLine(), out int menyval2);
+
+
+                            switch (menyval2)
+                            {
+
+                                case 1:
+
+                                    Console.WriteLine("vad vill du radera?\n");
+                                    
+                                    RaderingsInlägg(Inläggvektorlista);
+
+                                    runningloop = false;
+                                    break;
+
+                                    
+                                case 2:
+
+                                    Console.WriteLine("villket inlägg vill du redigera\n");
+
+                                    Console.Write("inlägg: ");
+
+                                    RedigeringInlägg(Inläggvektorlista);
+
+                                    runningloop = false;
+
+                                    break;
+
+                                    
+                                case 3:
+
+                                    runningloop = false;
+
+                                    break;
+
+                                    
+                                default:
+
+                                    TryParseFel();
+                                    SluttavKodblock();
+
+                                    break;
+                            }
+
+                        }
+
+
+                        SluttavKodblock();
+
+                        break;
+
+
+                    case 5:
+                        //jag har en sleep för att det känns bättre en att ha en readline
+                        Console.WriteLine("\nShutting down...");
+                        Thread.Sleep(1250);
+                        running = false;
+
+                        break;
+
+
+                    default:
+
+                        TryParseFel();
+                        SluttavKodblock();
+
+                        break;
+
+                        
+
+
+                }
+                
+            }
+        }
+    }
+}
