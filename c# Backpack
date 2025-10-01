@@ -1,0 +1,100 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp2
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            bool loop = true;
+
+            //här skriver jag hur många saker jag kan ha i vektorn
+            string[] föremålvektor = new string[5];
+            
+
+            while (loop == true)
+            {
+
+                Console.WriteLine("[1] Lägg till ett föremål");
+                Console.WriteLine("[2] Skriv ut alla föremål");
+                Console.WriteLine("[3] Sök i ryggsäcken");
+                Console.WriteLine("[4] Avsluta program");
+
+                //jag använder tryparse för så att ifall man skriver en bokstav istället för en siffra så går den till default
+                Int32.TryParse(Console.ReadLine(), out int menyval);
+
+
+                //ge variabler värde
+                //skriv ut alla variabler
+                //sök efter specefic variabel
+                //stäng av program
+
+                switch (menyval)
+                {
+                    case 1:
+                        // här är en for loop så att man kan adda så många saker som vektorns Length
+                        for (int i = 0; i < föremålvektor.Length; i++)
+                        {
+                            
+                            Console.WriteLine("vad lägger du i ryggan");
+                            
+                            föremålvektor[i] = Console.ReadLine();
+
+                        }
+                        
+                        break;
+
+                    case 2:
+                        
+                        for (int i = 0; i < föremålvektor.Length; i++)
+                        {
+                            // här skriver jag upp alla sparade vektor värden
+                            Console.WriteLine("du har " + föremålvektor[i] + " i ryggan");
+                        }
+                        
+                        
+                        break;
+                    case 3:
+                        bool knapp = false;
+                        
+                        string sökord = Console.ReadLine();
+                        
+                        //deklarera sökord så att jag kan söka på föremål 
+                        for (int i = 0; i < föremålvektor.Length; i++)
+                        {
+                            
+                            if (sökord.ToUpper() == föremålvektor[i].ToUpper())
+                            {
+                                knapp = true;
+                                Console.WriteLine("indexet av föremålet i ryggan är " + i);
+                            }
+                        }
+
+                        if (knapp == false)
+                        {
+                            Console.WriteLine("föremålet finns inte");
+                        }
+
+                        break;
+
+                    case 4:
+                        //här är bara att loopen blir falsk och programet slutar
+                        loop = false;
+
+                        break;
+
+                    default:
+                        //detta är default om du skriver fel nummer eller om du skiver en bokstav av misstag
+                        Console.WriteLine("Oj!!! Nu blev det fel du kan bara välja mellan 1-4");
+
+                        break;
+                }
+            }
+
+        }
+    }
+}
