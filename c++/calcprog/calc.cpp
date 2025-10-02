@@ -8,15 +8,15 @@
 #include <chrono>
 #include <thread> 
 #include <stdexcept>
-//metod användes från andra calc
+//metod anvÃ¤ndes frÃ¥n andra calc
 int ValidInDiv();
 int ValidIn();
 
-//bool för whileloopen
+//bool fÃ¶r whileloopen
 
 int CalcSwitch()
 {
-    //detta är för att kunna använda "åäö"
+    //detta Ã¤r fÃ¶r att kunna anvÃ¤nda "Ã¥Ã¤Ã¶"
     setlocale(LC_ALL, "sv-SE");
     SetConsoleOutputCP(65001);
     bool running = true;
@@ -28,29 +28,29 @@ int CalcSwitch()
         
         system("CLS");
         std::cout << "-----------------------------------\n";
-        std::cout << " \n[1] för addition (+)";
-        std::cout << " \n[2] för subtraktion(-)";
-        std::cout << " \n[3] för multiplikation (*)";
-        std::cout << " \n[4] för division (/)";
-        std::cout << "\n[5] för potens (^)";
-        std::cout << " \n[6] för rest (%)";
-        std::cout << "\n[7] för att avsluta";
+        std::cout << " \n[1] fÃ¶r addition (+)";
+        std::cout << " \n[2] fÃ¶r subtraktion(-)";
+        std::cout << " \n[3] fÃ¶r multiplikation (*)";
+        std::cout << " \n[4] fÃ¶r division (/)";
+        std::cout << "\n[5] fÃ¶r potens (^)";
+        std::cout << " \n[6] fÃ¶r rest (%)";
+        std::cout << "\n[7] fÃ¶r att avsluta";
         std::cout << "\n\n-----------------------------------\n";
-        std::cout << " \n\nVälj en operation: ";
+        std::cout << " \n\nVÃ¤lj en operation: ";
         int choice;
 
-        //(!(std::cin >> choice) gör att om man ger en valid input som "123" så kommer loopen bli false och den slutar 
-        // Och om man ger en invalid input som "abc" så kommer loopen vara true och den kommer fortsätta
+        //(!(std::cin >> choice) gÃ¶r att om man ger en valid input som "123" sÃ¥ kommer loopen bli false och den slutar 
+        // Och om man ger en invalid input som "abc" sÃ¥ kommer loopen vara true och den kommer fortsÃ¤tta
         while (!(std::cin >> choice))
         {
-            std::cout << "Fel du måste inputa ett nummer:  ";
+            std::cout << "Fel du mÃ¥ste inputa ett nummer:  ";
             std::cin.clear();
             std::cin.ignore(10000, '\n');
         } 
 
         int number1 = 0, number2 = 0;
 
-        // olika val beroende på vad man inputar in "choice"
+        // olika val beroende pÃ¥ vad man inputar in "choice"
        
         switch (choice)
         {
@@ -65,8 +65,8 @@ int CalcSwitch()
              std::cout << "skriv number 2:\n ";
              number2 = ValidIn();
 
-             std::cout << "Resultatet av addition är: " << number1 + number2 << "\n" << std::endl;
-             std::cout << "klicka enter för att fortsätta\n";
+             std::cout << "Resultatet av addition Ã¤r: " << number1 + number2 << "\n" << std::endl;
+             std::cout << "klicka enter fÃ¶r att fortsÃ¤tta\n";
             
              std::string str;
              std::getline(std::cin, str);
@@ -83,8 +83,8 @@ int CalcSwitch()
              std::cout << "skriv number 2:\n ";
              number2 = ValidIn();
             
-             std::cout << "Resultatet av subtraktion är: " << number1 - number2 << "\n" << std::endl;
-             std::cout << "klicka enter för att fortsätta\n";
+             std::cout << "Resultatet av subtraktion Ã¤r: " << number1 - number2 << "\n" << std::endl;
+             std::cout << "klicka enter fÃ¶r att fortsÃ¤tta\n";
             
              std::string str;
              std::getline(std::cin, str);
@@ -101,8 +101,8 @@ int CalcSwitch()
              std::cout << "skriv number 2:\n ";
              number2 = ValidIn();
             
-             std::cout << "Resultatet av multiplikation är: " << number1 * number2 << "\n" << std::endl;
-             std::cout << "klicka enter för att fortsätta\n";
+             std::cout << "Resultatet av multiplikation Ã¤r: " << number1 * number2 << "\n" << std::endl;
+             std::cout << "klicka enter fÃ¶r att fortsÃ¤tta\n";
             
              std::string str;
              std::getline(std::cin, str);
@@ -120,8 +120,8 @@ int CalcSwitch()
              std::cout << "skriv number 2:\n ";
              number2 = ValidInDiv();
             
-            std::cout << "Resultatet av division är: " << number1 / number2 << "\n" << std::endl;
-            std::cout << "klicka enter för att fortsätta\n";
+            std::cout << "Resultatet av division Ã¤r: " << number1 / number2 << "\n" << std::endl;
+            std::cout << "klicka enter fÃ¶r att fortsÃ¤tta\n";
             
             std::string str;
             std::getline(std::cin, str);
@@ -140,8 +140,8 @@ int CalcSwitch()
              std::cout << "skriv number 2:\n ";
              number2 = ValidIn();
             
-             std::cout << "Resultatet av potens är: " << pow(number1, number2) << "\n" << std::endl;
-             std::cout << "klicka enter för att fortsätta\n";
+             std::cout << "Resultatet av potens Ã¤r: " << pow(number1, number2) << "\n" << std::endl;
+             std::cout << "klicka enter fÃ¶r att fortsÃ¤tta\n";
             
              std::string str;
              std::getline(std::cin, str);
@@ -157,17 +157,17 @@ int CalcSwitch()
              std::cout << "skriv number 2:\n ";
              number2 = ValidIn();
             
-             std::cout << "\nResultatet av rest är: " << number1 % number2 << "\n" << std::endl;
+             std::cout << "\nResultatet av rest Ã¤r: " << number1 % number2 << "\n" << std::endl;
              if (number1 % 2 == 0)
              {
-                 std::cout << "jämt\n";
+                 std::cout << "jÃ¤mt\n";
              }
              else
              {
                  std::cout << "udda\n";
 
              }
-             std::cout << "\nklicka enter för att fortsätta\n";
+             std::cout << "\nklicka enter fÃ¶r att fortsÃ¤tta\n";
             
              std::string str;
              std::getline(std::cin, str);
@@ -179,7 +179,7 @@ int CalcSwitch()
          {
             
              std::cout << "\nAvslutar programmet...\n";
-             std::cout << "klicka enter för att fortsätta";
+             std::cout << "klicka enter fÃ¶r att fortsÃ¤tta";
             
              std::string str;
              std::getline(std::cin, str);
@@ -190,11 +190,11 @@ int CalcSwitch()
 
          break;
 
-         default://om du skriver ett nummer som inte är ett av valen
+         default://om du skriver ett nummer som inte Ã¤r ett av valen
          {
            
-             std::cout << "\nOgiltigt val, försök igen." << std::endl;
-             std::cout << "klicka enter för att fortsätta\n";
+             std::cout << "\nOgiltigt val, fÃ¶rsÃ¶k igen." << std::endl;
+             std::cout << "klicka enter fÃ¶r att fortsÃ¤tta\n";
            
              std::string str;
              std::getline(std::cin, str);
@@ -202,7 +202,7 @@ int CalcSwitch()
             break;
         }
         
-        std::string str;//såhär fick jag getline att funka
+        std::string str;//sÃ¥hÃ¤r fick jag getline att funka
         std::getline(std::cin, str);
     
     }
