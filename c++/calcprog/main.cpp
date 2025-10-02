@@ -25,7 +25,7 @@ int main()
 		
 		while (!(std::cin >> Choice))
 		{
-			std::cout << "Fel du måste inputa ett nummer:  ";
+			std::cout << "Fel du mÃ¥ste inputa ett nummer:  ";
 			std::cin.clear();
 			std::cin.ignore(10000, '\n');
 		}
