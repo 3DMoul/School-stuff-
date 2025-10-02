@@ -66,13 +66,13 @@ int CalcIf()
 			int numb1;
 			int numb2;
 
-			std::cout << " \n[1] för addition (+)";
-			std::cout << " \n[2] för subtraktion(-)";
-			std::cout << " \n[3] för multiplikation (*)";
-			std::cout << " \n[4] för division (/)";
-			std::cout << "\n[5] för potens (^)";
-			std::cout << " \n[6] för rest (%)";
-			std::cout << "\n[7] för att avsluta";
+			std::cout << " \n[1] fÃ¶r addition (+)";
+			std::cout << " \n[2] fÃ¶r subtraktion(-)";
+			std::cout << " \n[3] fÃ¶r multiplikation (*)";
+			std::cout << " \n[4] fÃ¶r division (/)";
+			std::cout << "\n[5] fÃ¶r potens (^)";
+			std::cout << " \n[6] fÃ¶r rest (%)";
+			std::cout << "\n[7] fÃ¶r att avsluta";
 			std::cout << " \n\nchoice:\n ";
 			
 			int choice = 0;
@@ -81,7 +81,7 @@ int CalcIf()
 			while (!(std::cin >> choice)) 
 			{
 				
-				std::cout << "Fel du måste inputa ett nummer:  ";
+				std::cout << "Fel du mÃ¥ste inputa ett nummer:  ";
 				std::cin.clear(); 
 				std:: cin.ignore(10000, '\n');
 			
@@ -96,8 +96,8 @@ int CalcIf()
 				std::cout << "skriv number 2:\n ";
 				numb2 = ValidIn();
 				
-				std::cout << "Resultatet av addition är: " << numb1 + numb2 << "\n" << std::endl;
-				std::cout << "klicka enter för att fortsätta\n";
+				std::cout << "Resultatet av addition Ã¤r: " << numb1 + numb2 << "\n" << std::endl;
+				std::cout << "klicka enter fÃ¶r att fortsÃ¤tta\n";
 				
 				std::string str;
 				std::getline(std::cin, str);
@@ -112,8 +112,8 @@ int CalcIf()
 				std::cout << "skriv number 2:\n ";
 				numb2 = ValidIn();
 				
-				std::cout << "Resultatet av subtraktion är: " << numb1 - numb2 << "\n" << std::endl;
-				std::cout << "klicka enter för att fortsätta\n";
+				std::cout << "Resultatet av subtraktion Ã¤r: " << numb1 - numb2 << "\n" << std::endl;
+				std::cout << "klicka enter fÃ¶r att fortsÃ¤tta\n";
 				
 				std::string str;
 				std::getline(std::cin, str);
@@ -128,8 +128,8 @@ int CalcIf()
 				std::cout << "skriv number 2:\n ";
 				numb2 = ValidIn();
 
-				std::cout << "Resultatet av multiplikation är: " << numb1 * numb2 << "\n" << std::endl;
-				std::cout << "klicka enter för att fortsätta\n";
+				std::cout << "Resultatet av multiplikation Ã¤r: " << numb1 * numb2 << "\n" << std::endl;
+				std::cout << "klicka enter fÃ¶r att fortsÃ¤tta\n";
 				
 				std::string str;
 				std::getline(std::cin, str);
@@ -143,8 +143,8 @@ int CalcIf()
 				std::cout << "skriv number 2:\n ";
 				numb2 = ValidInDiv();
 				
-				std::cout << "Resultatet av division är: " << numb1 / numb2 << "\n" << std::endl;
-				std::cout << "klicka enter för att fortsätta\n";
+				std::cout << "Resultatet av division Ã¤r: " << numb1 / numb2 << "\n" << std::endl;
+				std::cout << "klicka enter fÃ¶r att fortsÃ¤tta\n";
 				
 				std::string str;
 				std::getline(std::cin, str);
@@ -157,8 +157,8 @@ int CalcIf()
 				std::cout << "skriv number 2:\n ";
 				numb2 = ValidIn();
 				
-				std::cout << "Resultatet av potens är: " << pow(numb1, numb2) << "\n" << std::endl;
-				std::cout << "klicka enter för att fortsätta\n";
+				std::cout << "Resultatet av potens Ã¤r: " << pow(numb1, numb2) << "\n" << std::endl;
+				std::cout << "klicka enter fÃ¶r att fortsÃ¤tta\n";
 				
 				std::string str;
 				std::getline(std::cin, str);
@@ -171,17 +171,17 @@ int CalcIf()
 				std::cout << "skriv number 2:\n ";
 				numb2 = ValidIn();
 				
-				std::cout << "\nResultatet av rest är: " << numb1 % numb2 << "\n" << std::endl;
+				std::cout << "\nResultatet av rest Ã¤r: " << numb1 % numb2 << "\n" << std::endl;
 				if (numb1 % 2 == 0)
 				{
-					std::cout << "\njämt\n";
+					std::cout << "\njÃ¤mt\n";
 				}
 				else
 				{
 					std::cout << "\nudda\n";
 
 				}
-				std::cout << "\nklicka enter för att fortsätta\n";
+				std::cout << "\nklicka enter fÃ¶r att fortsÃ¤tta\n";
 				
 				std::string str;
 				std::getline(std::cin, str);
@@ -190,7 +190,7 @@ int CalcIf()
 			{
 
 				std::cout << "\nAvslutar programmet...\n";
-				std::cout << "klicka enter för att fortsätta";
+				std::cout << "klicka enter fÃ¶r att fortsÃ¤tta";
 				std::string str;
 				std::getline(std::cin, str);
 
