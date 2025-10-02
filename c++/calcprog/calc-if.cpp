@@ -16,7 +16,8 @@ int ValidInDiv()
 	
 	int numb = -1;
 	
-	
+	//(!(std::cin >> choice) gör att om man ger en valid input som "123" så kommer loopen bli false och den slutar 
+    // Och om man ger en invalid input som "abc" så kommer loopen vara true och den kommer fortsätta
 	while (!(std::cin >> numb)) 
 	{  
 		std::cout << "fel input srkiv ett number: \n";
@@ -206,3 +207,4 @@ int CalcIf()
 		return 0;
 
 }
+
