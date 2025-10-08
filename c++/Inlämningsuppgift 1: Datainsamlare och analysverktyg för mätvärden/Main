@@ -28,7 +28,7 @@ std::list<std::vector<int>> ListVal = {};
         std::cout << "Datainsamlare och analysverktyg för mätvärden" << std::endl;
         std::cout << "[1] Input more more data" << std::endl;
         std::cout << "[2] Print all data" << std::endl;
-        std::cout << "[3]" << std::endl;
+        std::cout << "[3] More options for data" << std::endl;
         std::cout << "[4]" << std::endl;
         std::cout << "[5]" << std::endl;
         std::cout << "[6] End Program" << std::endl;
@@ -114,9 +114,85 @@ std::list<std::vector<int>> ListVal = {};
             break;
 
          case 3:
+         {
+             //if else beroende på om du har en value eller flera values
+             if (size(ListVal) == 1)
+             {
 
-            std::cout << "test" << std::endl;
-            
+                 std::cout << "You have " << size(ListVal) << " value" << std::endl;
+                 int SumVal = 0;
+                 for (const auto& VecVal : ListVal)
+                 {
+
+                     SumVal = SumVal + VecVal[1];
+
+                 }
+
+                 std::cout << "The sum of all the values is " << SumVal << std::endl;
+             }
+
+             else if (size(ListVal) > 1)
+             {
+
+                 std::cout << "You have " << size(ListVal) << " values" << std::endl;
+                int SumVal = 0;
+                for (const auto& VecVal : ListVal)
+                {
+                    
+                    SumVal = SumVal + VecVal[1];
+
+                }
+
+                std::cout << "The sum of all the values is " << SumVal << std::endl;
+
+                   int AvVal = 0;
+                 for (const auto& VecVal : ListVal)
+                 {
+
+                     AvVal = AvVal + VecVal[1];
+
+                 }
+
+
+                    std::cout << "Avarage of all values " << AvVal / size(ListVal) << std::endl;
+
+                    int MinVal = INT_MAX;
+                    int MaxVal = INT_MIN;
+                for (const auto& VecVal : ListVal)
+                {
+                 
+                
+                 if (VecVal[1] > MaxVal)
+                 {
+
+                     MaxVal = VecVal[1];
+
+                 }
+                 else if (VecVal[1] < MinVal)
+                 {
+
+                     MinVal = VecVal[1];
+
+                 }
+
+                }
+
+                 std::cout << "Min: " << MinVal << std::endl;
+                 std::cout << "Max: " << MaxVal << std::endl;
+
+             }
+             else
+             {
+
+                 std::cout << "You currently dont have any data values to look at" << std::endl;
+             
+             }
+
+             std::string str;
+             std::getline(std::cin, str);
+             
+
+         }
             break;
 
         
@@ -149,5 +225,10 @@ std::list<std::vector<int>> ListVal = {};
         
         }
 
+        std::cout << "Klick \"ENTER\" too continue" << std::endl;
+        std::string str;
+        std::getline(std::cin, str);
+
     }
 }
+
