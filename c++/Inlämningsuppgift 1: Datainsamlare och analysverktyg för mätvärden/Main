@@ -3,16 +3,19 @@
 #include <string>
 #include <list>
 #include <cstring>
+#include <limits>
+#include <ctime>
 
 int main()
 {
     bool run = true;
+    time_t timestamp;
+    time(&timestamp);
 
 
-    
-        
 
-std::list<std::vector<int>> ListVal = {};
+
+    std::list<std::vector<std::string>> ListVal = {};
 
     //menyn
     while (run == true)
@@ -20,10 +23,10 @@ std::list<std::vector<int>> ListVal = {};
 
         int Choice;
 
-        
-        
-        
-        
+
+
+
+
         std::cout << "---------------------------------" << std::endl;
         std::cout << "Datainsamlare och analysverktyg för mätvärden" << std::endl;
         std::cout << "[1] Input more more data" << std::endl;
@@ -38,9 +41,9 @@ std::list<std::vector<int>> ListVal = {};
         std::cout << "[10]" << std::endl;*/
         std::cout << "---------------------------------" << std::endl;
 
-        
-        
-        
+
+
+
         while (!(std::cin >> Choice))
         {
             std::cout << "Error you have inputed a invalid value please input one of the meny options: " << std::endl;
@@ -53,182 +56,278 @@ std::list<std::vector<int>> ListVal = {};
          case 1:
 
          {
-             std::cout << "How many values do you want to add" << std::endl;
-             int times = 0;
-             std::cin >> times;
-             for (int i = 0; i < times; i++)
-             {
 
-                 std::vector<int> Values(2);
+            std::cout << "How many values do you want to add" << std::endl;
+            int Times = 0;
+            std::cin >> Times;
+            for (int i = 0; i < Times; i++)
+            {
+                //vector för värdet med storlek (3) så jag kan ha tid när den skapades nummer# vilken årdning den skapades och till sist valuen av datan
+                std::vector<std::string> Values(3);
 
-                 std::cout << "[" << i + 1 << "]" << "Value: ";
+                std::cout << "[" << i + 1 << "]" << "Value: ";
 
-                 int SubVal = 0;
-                 std::cin >> SubVal;
-                 //Time added
-                 Values[0] = 0;
+                double SubVal = 0;
+                std::cin >> SubVal;
+                
+                //här är för att lägga till tiden
+                time_t timestamp;
+                time(&timestamp);
 
-                 Values[1] = SubVal;
-                 std::cout << Values[0] << Values[1];
+                Values[0] = ctime(&timestamp);
 
-                 ListVal.push_back(Values);
 
-             }
-             
+                std::string tempstring = std::to_string(SubVal);
+                Values[1] = tempstring;
+
+
+                //detta är för att ge nummeret på vilken värde det är
+                std::string convert = std::to_string((size(ListVal) + 1));
+                std::string Datanumb = convert + "#";
+
+                std::cout << Datanumb<< std::endl;
+                Values[2] = Datanumb;
+
+                ListVal.push_back(Values);
+
+            }
+
          }
-            
-            
-            break;
+
+
+         break;
 
          case 2:
-
-         {
-             std::cout << "You have [" << size(ListVal) << "]" << std::endl;
-             std::cout << "Do you want to list them [Y/N] : ";
-             std::string Des;
-             std::cin >> Des;
-             if (Des == "Y")
-             {
-
-                 for (const auto& vec : ListVal) 
-                 {
-                     for (int n : vec) 
-                     {
-                         std::cout << n << " ";
-                     }
-                     std::cout << std::endl;
-                 }
-                 
-             }
-             else if (Des == "N")
-             {
-                 break;
-             }
-             else
-             {
-                 std::cout << "Wrong input" << std::endl;
-             }
-             
-         }
             
-            break;
+         {
+            bool Print = true;
+            
+            
+
+            while(Print == true)
+            {
+
+                std::cout << "You have [" << size(ListVal) << "]" << std::endl;
+                std::cout << "Do you want to list them [Y/N] : " << std::endl;
+                char Des;
+                std::cin >> Des;
+                //använder toupper så man kan skriva bådde stor eller liten bokstav
+
+                if ((char)toupper(Des) == 'Y')
+                {
+
+                    
+                    //detta går igenom alla vectorer och skriver ut dem
+                    for (const auto& vec : ListVal)
+                    {
+                        
+                        std::cout << "--------------------" << std::endl;
+                        
+                            std::cout << vec[0] << std::endl;
+                            std::cout << vec[2] << std::endl;
+                            std::cout << vec[1] << std::endl;
+
+                        std::cout << "--------------------" << std::endl;
+                        
+                    }
+
+                    Print = false;
+
+                }
+                else if ((char)toupper(Des) == 'N')
+                {
+
+                    Print = false;
+
+                }
+                else
+                {
+
+                    std::cout << "Wrong input" << std::endl;
+
+                }
+
+                break;
+
+            }
+
+         }
+
+         break;
 
          case 3:
          {
-             //if else beroende på om du har en value eller flera values
-             if (size(ListVal) == 1)
-             {
+            //if else beroende på om du har en value eller flera values
+            if (size(ListVal) == 1)
+            {
 
-                 std::cout << "You have " << size(ListVal) << " value" << std::endl;
-                 int SumVal = 0;
-                 for (const auto& VecVal : ListVal)
-                 {
-
-                     SumVal = SumVal + VecVal[1];
-
-                 }
-
-                 std::cout << "The sum of all the values is " << SumVal << std::endl;
-             }
-
-             else if (size(ListVal) > 1)
-             {
-
-                 std::cout << "You have " << size(ListVal) << " values" << std::endl;
-                int SumVal = 0;
+                std::cout << "You have " << size(ListVal) << " value" << std::endl;
+                double SumVal = 0;
                 for (const auto& VecVal : ListVal)
                 {
-                    
-                    SumVal = SumVal + VecVal[1];
+
+                    double temp = stod(VecVal[1]);
+                    SumVal = SumVal + temp;
+
+
+                }
+
+                std::cout << "The only value is " << SumVal << std::endl;
+
+            }
+
+            else if (size(ListVal) > 1)
+            {
+
+                std::cout << "You have " << size(ListVal) << " values" << std::endl;
+
+                //här är summan av all values
+                double SumVal = 0;
+                for (const auto& VecVal : ListVal)
+                {
+
+                    double temp = stod(VecVal[1]);
+                    SumVal = SumVal + temp;
 
                 }
 
                 std::cout << "The sum of all the values is " << SumVal << std::endl;
 
-                   int AvVal = 0;
-                 for (const auto& VecVal : ListVal)
-                 {
+                // medelvärdet är summan av alla delat på hur många values du har
+                std::cout << "Avarage of all values " << SumVal / size(ListVal) << std::endl;
 
-                     AvVal = AvVal + VecVal[1];
+                // här får jag maximum valuen och minimum valuen så att koden har en refrence att comparea mot
+                double MinVal = std::numeric_limits<double>::max();
+                double MaxVal = std::numeric_limits<double>::min();
 
-                 }
-
-
-                    std::cout << "Avarage of all values " << AvVal / size(ListVal) << std::endl;
-
-                    int MinVal = INT_MAX;
-                    int MaxVal = INT_MIN;
-                for (const auto& VecVal : ListVal)
+                for (const auto& VecVal : ListVal)//checkar genom listan alla vectorer
                 {
-                 
-                
-                 if (VecVal[1] > MaxVal)
-                 {
+                    double temp = stod(VecVal[1]);
+                    //gör [1] för att det är på den indexen som data valuen är på
+                    if (temp > MaxVal)
+                    {
 
-                     MaxVal = VecVal[1];
+                        MaxVal = temp;
 
-                 }
-                 else if (VecVal[1] < MinVal)
-                 {
+                    }
+                    else if (temp < MinVal)
+                    {
 
-                     MinVal = VecVal[1];
+                        MinVal = temp;
 
-                 }
+                    }
 
                 }
 
-                 std::cout << "Min: " << MinVal << std::endl;
-                 std::cout << "Max: " << MaxVal << std::endl;
+                std::cout << "Min: " << MinVal << std::endl;
 
-             }
-             else
-             {
+                std::cout << "Max: " << MaxVal << std::endl;
 
-                 std::cout << "You currently dont have any data values to look at" << std::endl;
-             
-             }
+                double StandAvg = 0;
+                for (const auto& VecVal : ListVal)
+                {
 
-             std::string str;
-             std::getline(std::cin, str);
-             
+                    double temp = stod(VecVal[1]);
+                    StandAvg = StandAvg + temp;
+
+                }
+                StandAvg = StandAvg / size(ListVal);
+
+                //vector för att hålla värderna för varians
+                std::vector<double> StandAv = {};
+
+                //detta subtraherar alla värderna med medelvärdet
+                for (const auto& VecVal : ListVal)  
+                {
+                    double temp = stod(VecVal[1]);
+                    double tempvar = temp - StandAvg;
+                        
+                    StandAv.push_back(tempvar);
+                    
+                }
+
+                //detta kvadrerar alla dem subtraherade nummrena
+                for (int i = 0; i< size(StandAv); i++)
+                {
+
+                    double tempvar = pow(StandAv[i], 2);
+
+                    StandAv[i] = tempvar;
+                   
+                }
+
+                // deklarering a kvadrerade tal
+                double Kvad = 0;
+
+                //loop för att addera ihop all Kvad tal
+                for (double i : StandAv)
+                {
+
+                    Kvad = Kvad + i;
+
+                }
+
+                
+
+                std::cout << "the varians is " << Kvad / (size(StandAv) - 1) << std::endl;
+
+                std::cout << "the varians is " << Kvad / size(StandAv) << std::endl;
+
+            }
+            //detta kommer upp om du inte har några values fast försöker printa ut en lista endå
+            else
+            {
+
+                std::cout << "You currently dont have any data values to look at" << std::endl;
+
+            }
 
          }
-            break;
 
-        
+         
+
+         break;
+
+
          case 4:
 
             std::cout << "test" << std::endl;
-            
+
             break;
 
-        
+
          case 5:
 
             std::cout << "test" << std::endl;
-            
+
             break;
-        
-         case 6:
+
+            
+
+         case 6: //stänger av loopen
 
             run = false;
-            
-            break;
-        
-         default:
 
-            std::cout << "test" << std::endl;
-            
             break;
-        
-        
-        
+
+         default: //om du skriver ett nummer som inte är en av alternativen
+
+            std::cout << "Wrong input choices are between [1]-[6]" << std::endl;
+
+            break;
+
+            
+
+
         }
+
+        
+
+    }
 
         std::cout << "Klick \"ENTER\" too continue" << std::endl;
         std::string str;
         std::getline(std::cin, str);
 
-    }
+        return 0;
 }
-
