@@ -9,3 +9,7 @@ fortsatte på att fixa inputen för värdena i en lista så jag kan skriva ut de
 2025-10-08
 
 jag la till att man får ut  summa, medelvärde och hur många värden man har i listan. Sen har jag gjort att man kan välja om man vill skriva ut hela listan av värden
+
+2025-10-9
+
+2025-10-10
