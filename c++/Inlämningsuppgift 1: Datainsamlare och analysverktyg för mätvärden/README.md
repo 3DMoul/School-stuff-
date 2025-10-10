@@ -12,4 +12,7 @@ jag la till att man får ut  summa, medelvärde och hur många värden man har i
 
 2025-10-9
 
+idag har jag lagt in time stamp för att veta när datan kom in. har även lagt till massa kommentarer och små fixat coden för att få den att funka bättre
+
 2025-10-10
+
