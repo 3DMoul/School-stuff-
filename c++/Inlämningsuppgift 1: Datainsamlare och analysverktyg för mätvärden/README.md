@@ -16,3 +16,4 @@ idag har jag lagt in time stamp för att veta när datan kom in. har även lagt 
 
 2025-10-10
 
+la till functioner för att få koden att vara mer läsbar some PrintMenu(), SummOfList()
