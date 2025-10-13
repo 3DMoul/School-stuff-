@@ -5,16 +5,19 @@
 #include <cstring>
 #include <limits>
 #include <ctime>
+#include < cstdlib >
 
 
-void PrintMenu()
+
+
+    void PrintMenu()
     {
         std::cout << "---------------------------------" << std::endl;
         std::cout << "Datainsamlare och analysverktyg för mätvärden" << std::endl;
         std::cout << "[1] Input more more data" << std::endl;
         std::cout << "[2] Print all data" << std::endl;
         std::cout << "[3] More options for data" << std::endl;
-        std::cout << "[4]" << std::endl;
+        std::cout << "[4] Simulate Random values" << std::endl;
         std::cout << "[5]" << std::endl;
         std::cout << "[6] End Program" << std::endl;
         /*std::cout << "[7]" << std::endl;
@@ -24,21 +27,21 @@ void PrintMenu()
         std::cout << "---------------------------------" << std::endl;
     }
 
-void ENTER()
-{
+    void ENTER()
+    {
 
-    std::cout << "Klick \"ENTER\" too continue" << std::endl;
-    
-    std::string str;
+        std::cout << "Klick \"ENTER\" too continue" << std::endl;
 
-    std::getline(std::cin, str);
-    
-    std::streamsize InputBufferLimit = 10000;
+        std::string str;
 
-    std::cin.ignore(InputBufferLimit, '\n');
-}
-    
-static double SummOfList(const std::list<std::vector<std::string>>& InputList)
+        std::getline(std::cin, str);
+
+        std::streamsize InputBufferLimit = 10000;
+
+        std::cin.ignore(InputBufferLimit, '\n');
+    }
+
+    static double SummOfList(const std::list<std::vector<std::string>>& InputList)
     {
         double SumVal = 0;
 
@@ -55,7 +58,7 @@ static double SummOfList(const std::list<std::vector<std::string>>& InputList)
 
     }
 
-static double varia(const std::list<std::vector<std::string>>& InputList)
+    static double varia(const std::list<std::vector<std::string>>& InputList)
     {
 
 
@@ -100,31 +103,39 @@ static double varia(const std::list<std::vector<std::string>>& InputList)
 
     }
 
-    
 
 
 int main()
 {
 
+    
+
     bool run = true;
+
+    //här deklarerar jag tiden
     time_t timestamp;
     time(&timestamp);
-
-
-
 
     
     std::list<std::vector<std::string>> DataEntries = {};
 
 
-    //menyn
+    //menyn loop
     
     while (run == true)
     {
 
         int Choice;
+
+        //tar bort det som är skrivet innan
+        system("CLS");
+
+        //meny
         PrintMenu();
 
+
+
+        //failsafe loop för val
         while (!(std::cin >> Choice))
         {
         
@@ -137,12 +148,15 @@ int main()
 
         switch (Choice)
         {
+
          case 1:
          {
+
+             system("CLS");
+
              std::cout << "How many values do you want to add" << std::endl;
             
             int Times = 0;
-            
             std::cin >> Times;
             
             for (int i = 0; i < Times; i++)
@@ -179,8 +193,11 @@ int main()
 
          break;
 
+
          case 2:
          {
+
+             system("CLS");
         
             bool Print = true;
 
@@ -202,7 +219,6 @@ int main()
                     //detta går igenom alla vectorer och skriver ut dem
                     
                     for (const auto& vec : DataEntries)
-                    
                     {
 
                     
@@ -228,7 +244,6 @@ int main()
                 }
                 
                 else if ((char)toupper(Des) == 'N')
-                
                 {
 
                 
@@ -238,7 +253,6 @@ int main()
                 }
                 
                 else
-                
                 {
 
                 
@@ -257,10 +271,29 @@ int main()
 
          break;
 
+
          case 3:
          {
+
+             system("CLS");
+             char Des;
+             double LimitValue = 0;
+
+             std::cout << "Do you want to at a limit value:[Y]/[N]" << std::endl;
+             std::cin >> Des;
+
+              // detta är för att lägga till ett gränsvärde
+             if ((char)toupper(Des) == 'Y')
+             {
+
+                 std::cout << "What is the imit value: " << std::endl;
+                 
+                 std::cin >> LimitValue;
+
+             }
+             
+
             //if else beroende på om du har en value eller flera values
-            
             if (size(DataEntries) == 1)
             {
 
@@ -276,49 +309,35 @@ int main()
                 
             }
 
-            
             else if (size(DataEntries) > 1)
-            
             {
 
             
                 std::cout << "You have " << size(DataEntries) << " values" << std::endl;
 
 
-                
                 //function för att summrera all data
-                    
                 double SumVal = SummOfList(DataEntries);
 
-
-
-                
                 std::cout << "The sum of all the values is " << SumVal << std::endl;
 
 
-                
                 // medelvärdet är summan av alla delat på hur många values du har
-                
                 std::cout << "Avarage of all values " << SumVal / size(DataEntries) << std::endl;
 
 
-                
                 // här får jag maximum valuen och minimum valuen så att koden har en refrence att comparea mot
-                
                 double MinVal = std::numeric_limits<double>::max();
-                
                 double MaxVal = std::numeric_limits<double>::min();
 
                 
                 std::string TimeMax = "";
-                
                 std::string NumbMax = "";
 
                 
                 //detta frå fram max value
                 
                 for (const auto& VecVal : DataEntries)//checkar genom listan alla vectorer
-                
                 {
                 
                     double temp = stod(VecVal[1]);
@@ -326,7 +345,6 @@ int main()
                     //gör [1] för att det är på den indexen som data valuen är på
                     
                     if (temp > MaxVal)
-                    
                     {
 
                     
@@ -344,14 +362,12 @@ int main()
 
                 
                 std::string TimeMin = "";
-                
                 std::string NumbMin = "";
 
                 
                 // detta får fram minsta value
                 
                 for (const auto& VecVal : DataEntries)
-                
                 {
                 
                     double temp = stod(VecVal[1]);
@@ -375,24 +391,50 @@ int main()
 
                 
                 std::cout << "Min: \n" << TimeMin << NumbMin << "\n" << MinVal << "\n" << std::endl;
-                
                 std::cout << "Max: \n" << TimeMax << NumbMax << "\n" << MaxVal << "\n" << std::endl;
 
 
-
-                
                 double Varians = varia(DataEntries);
-                
                 std::cout << "The sample varians is " << Varians / (size(DataEntries) - 1) << std::endl;
-                
                 std::cout << "The population varians is " << Varians / size(DataEntries) << std::endl;
+
+
+                int TimesOver = 0;
+                int TimesUnder = 0;
+
+                if ((char)toupper(Des) == 'Y')
+                {
+                   
+                    // denna for loop checkar alla gånger datan är under eller över gränsvärdet man la till
+                        for (const auto& vec : DataEntries)
+                        {
+                            double temp = stod(vec[1]);
+                           
+                            if (temp < LimitValue)
+                            {
+                                
+                                TimesUnder++;
+
+                            }
+                            else if (temp > LimitValue)
+                            {
+                               
+                                TimesOver++;
+                               
+                            }
+                        }
+
+                        std::cout << "this is how many times you were over the limit value [" << TimesOver << "]" << std::endl;
+                        std::cout << "this is how many times you were under the limit value [" << TimesUnder << "]" << std::endl;
+               
+                }
+
 
                 
             }
 
             //detta kommer upp om du inte har några values fast försöker printa ut en lista endå
             else
-
             {
 
                 std::cout << "You currently dont have any data values to look at" << std::endl;
@@ -405,17 +447,57 @@ int main()
 
          break;
 
+
          case 4:
          {
 
-             std::cout << "test" << std::endl;
+             system("CLS");
+
+             std::cout << "How many values do you want to simulate" << std::endl;
+
+             int Times = 0;
+             std::cin >> Times;
+
+             for (int i = 0; i < Times; i++)
+             {
+
+                 //vector för värdet med storlek (3) så jag kan ha tid när den skapades nummer# vilken årdning den skapades och till sist valuen av datan
+                 std::vector<std::string> Values(3);
+
+                 std::cout << "[" << i + 1 << "]" << "Value: ";
+
+                 //här är för att lägga till tiden
+                 time_t TimeStamp;
+                 time(&TimeStamp);
+                 Values[0] = ctime(&TimeStamp);
+
+
+                 //detta är för att ge nummeret på vilken värde det är
+                 std::string convert = std::to_string((size(DataEntries) + 1));
+                 std::string dataLabel = convert + "#";
+                 std::cout << dataLabel << std::endl;
+                 Values[2] = dataLabel;
+
+
+                
+                 double f = (double)rand() / RAND_MAX;
+                 double RandValue = 20 + f * (30 - 20);
+                 std::string TempString = std::to_string(RandValue);
+                 std::cout << TempString << std::endl;
+                 Values[1] = TempString;
+
+                 DataEntries.push_back(Values);
+
+             }
 
          }
 
+         ENTER();
+
          break;
 
+
          case 5:
-         
          {
 
          
@@ -424,15 +506,13 @@ int main()
             
          }
 
-         
          break;
 
-         case 6: //stänger av loopen
 
+         case 6: //stänger av loopen
          
              run = false;
 
-             
              break;
 
             
@@ -444,6 +524,7 @@ int main()
          }
          
          break;
+
 
         }
 
