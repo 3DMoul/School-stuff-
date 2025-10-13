@@ -58,7 +58,7 @@
 
     }
 
-    static double varia(const std::list<std::vector<std::string>>& InputList)
+    static double Varia(const std::list<std::vector<std::string>>& InputList)
     {
 
 
@@ -103,6 +103,26 @@
 
     }
 
+    static int NumberChoice(std::string StringInput)
+    {
+
+        int Choice;
+
+        //failsafe loop för val
+        while (!(std::cin >> Choice))
+        {
+        
+            std::cout << "Error you have inputed a invalid value please input a number:  " << std::endl;
+            std::cin.clear();
+            std::streamsize InputBufferLimit = 10000;
+            std::cin.ignore(InputBufferLimit, '\n');
+            std::cout << StringInput << std::endl;
+
+        }
+
+
+        return Choice;
+    }
 
 
 int main()
@@ -125,26 +145,19 @@ int main()
     while (run == true)
     {
 
-        int Choice;
+        
 
         //tar bort det som är skrivet innan
         system("CLS");
 
         //meny
         PrintMenu();
-
-
-
-        //failsafe loop för val
-        while (!(std::cin >> Choice))
-        {
         
-            std::cout << "Error you have inputed a invalid value please input one of the meny options: " << std::endl;
-            std::cin.clear();
-            std::streamsize InputBufferLimit = 10000;
-            std::cin.ignore(InputBufferLimit, '\n');
-            
-        }
+        std::string MenyChoice = "Choice 1-6: ";
+        std::cout << MenyChoice << std::endl;
+        //menyval NumberChoice(); funktionen är en fail safe ifal man skiver en bokstav istället för ett nummer
+        int Choice = NumberChoice(MenyChoice);
+        
 
         switch (Choice)
         {
@@ -154,10 +167,11 @@ int main()
 
              system("CLS");
 
-             std::cout << "How many values do you want to add" << std::endl;
+             std::string TimesChoice = "How many values do you want to add";
+             std::cout << TimesChoice << std::endl;
             
-            int Times = 0;
-            std::cin >> Times;
+             int Times = NumberChoice(TimesChoice);
+            
             
             for (int i = 0; i < Times; i++)
             {
@@ -286,9 +300,10 @@ int main()
              if ((char)toupper(Des) == 'Y')
              {
 
-                 std::cout << "What is the imit value: " << std::endl;
+                 std::string LimitValueString = "What is the imit value: ";
+                 std::cout << LimitValueString << std::endl;
                  
-                 std::cin >> LimitValue;
+                 LimitValue = NumberChoice(LimitValueString);
 
              }
              
@@ -394,7 +409,7 @@ int main()
                 std::cout << "Max: \n" << TimeMax << NumbMax << "\n" << MaxVal << "\n" << std::endl;
 
 
-                double Varians = varia(DataEntries);
+                double Varians = Varia(DataEntries);
                 std::cout << "The sample varians is " << Varians / (size(DataEntries) - 1) << std::endl;
                 std::cout << "The population varians is " << Varians / size(DataEntries) << std::endl;
 
@@ -453,10 +468,10 @@ int main()
 
              system("CLS");
 
-             std::cout << "How many values do you want to simulate" << std::endl;
+             std::string TimesSimulate = "How many values do you want to simulate";
+             std::cout << TimesSimulate << std::endl;
 
-             int Times = 0;
-             std::cin >> Times;
+             int Times = NumberChoice(TimesSimulate);
 
              for (int i = 0; i < Times; i++)
              {
@@ -534,3 +549,4 @@ int main()
     return 0;
 
 }
+
