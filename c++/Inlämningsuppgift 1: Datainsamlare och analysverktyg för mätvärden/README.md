@@ -21,3 +21,6 @@ la till functioner för att få koden att vara mer läsbar some PrintMenu(), Sum
 2025-10-13
 
 jag la till gränsvärde val på menyval 3 och gjorde att man kan kan välja om man ska ha gränsvärde eller inte har också laggt till random silmlerade värden på menyval 4 samt att man får välja hur många värden som ska simuleras
+
+2025-10-14
+
