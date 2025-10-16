@@ -443,7 +443,7 @@ int main()
                     std::cout << "this is how many times you were under the limit value [" << TimesUnder << "]" << std::endl;
 
                     //moving avarage
-
+                    
                     std::cout << "Your moving avarage is:  " << std::endl;
                     double MovingAvarage = 0;
                     int MovingAvgSize = 0;
@@ -454,7 +454,7 @@ int main()
 
                     std::string EBound = "\nEndBoundry: ";
                     EndBoundry= NumberChoice(EBound);
-
+                    //har detta ifall man sätter EndBoundryn innnan BeginBoundryn för då kommer det inte funka
                     while (EndBoundry < BeginBoundry)
                     {
                         std::cin.clear();
@@ -464,7 +464,7 @@ int main()
                         std::cout << "Enter another value: ";
                         std::cin >> EndBoundry;
                     }
-                    
+                    // detta går igenom från där du ville starta till där du villa sluta
                     for (const auto& vec : DataEntries)
                     {
                         int temp = stod(vec[2]);
