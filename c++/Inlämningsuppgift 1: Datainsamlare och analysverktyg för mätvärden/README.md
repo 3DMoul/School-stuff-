@@ -26,4 +26,20 @@ Jag la till gränsvärde val på menyval 3 och gjorde att man kan kan välja om 
 
 Jag la till en visualisering av datavärderna på menyval 5 som man har fåt då den vissar med "*" för hur högt värdet är (vissar mer för högre värden och mindre för mindre värden). Jag la även till en moving avarage på menyval 3
 
+while (!(std::cin >> Choice))
+{
+
+    std::cout << "Error you have inputed a invalid value please input a number:  " << std::endl;
+    std::cin.clear();
+    std::streamsize InputBufferLimit = 10000;
+    std::cin.ignore(InputBufferLimit, '\n');
+    std::cout << StringInput << std::endl;
+
+}
+använde det här som felhanterare för att det var skönt att den lätt dig skriva tills du har en gilltig svar
+
+
+använde mig av switch för att det är enklare att expandera en att konstant skriva else if (i == k) för varje option
+
+
 
