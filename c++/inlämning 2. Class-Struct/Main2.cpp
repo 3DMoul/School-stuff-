@@ -9,6 +9,7 @@
 #include <thread>
 #include <chrono>
 #include <stdlib.h>  
+#include <tuple>
 using namespace std;
 
 class MainFunction
@@ -74,10 +75,158 @@ struct VectorAttributes
 {
     std::string TimeStamp;
     int NumbCreation;
-    float DataValue
+    float DataValue;
 };
 
+void DataVisulisation(const std::list<std::vector<std::string>>& InputList)
+{
 
+    // går genom alla vectorer
+    for (const auto& vec : InputList)
+    {
+
+        int temp = round(stod(vec[1]));
+        for (int i = 0; i < round(temp / 2); i++) // for loopen printar "*" så att man kan se visualiserat hur tempraturen går ne och up
+        {
+
+
+            std::cout << "*";
+            //andvänder den här för att den inte bara pruntar ut alla "*" på en gång
+            this_thread::sleep_for(chrono::seconds(1));
+
+        }
+
+        std::cout << "   " << vec[1] << endl;
+        std::cout << "\n";
+
+    }
+}
+
+void PrintVectorList(const std::list<std::vector<std::string>>& InputList)
+{
+
+    for (const auto& vec : InputList)
+    {
+
+
+        std::cout << "--------------------" << std::endl;
+
+
+        std::cout << vec[0] << std::endl;
+
+        std::cout << vec[2] << std::endl;
+
+        std::cout << vec[1] << std::endl;
+
+
+        std::cout << "--------------------" << std::endl;
+
+
+    }
+    
+}
+
+static std::tuple<std::string, std::string, float>  PrintListMax(const std::list<std::vector<std::string>>& InputList)
+{
+
+    //minimum valuen så att koden har en refrence att comparea mot
+    double MaxVal = std::numeric_limits<double>::min();
+
+    //detta frå fram max value
+    std::string TimeMax;
+    std::string IdMax;
+
+    for (const auto& VecVal : InputList)//checkar genom listan alla vectorer
+    {
+
+        double Temp = stod(VecVal[1]);
+
+        //gör [1] för att det är på den indexen som data valuen är på
+
+        if (Temp > MaxVal)
+        {
+
+
+            TimeMax = VecVal[0];
+
+            IdMax = VecVal[2];
+
+            MaxVal = Temp;
+
+
+        }
+
+
+    }
+
+    return std::make_tuple(TimeMax, IdMax, MaxVal);
+    
+}
+
+static std::tuple<std::string, std::string, float> PrintListMin(const std::list<std::vector<std::string>>& InputList)
+{
+
+    //denna variabel tar fram max value för att comparea cilken som är minst
+    double MinVal = std::numeric_limits<double>::max(); 
+   
+    // detta får fram minsta value
+    std::string TimeMin;
+    std::string IdMin;
+
+    for (const auto& VecVal : InputList)
+    {
+
+        double temp = stod(VecVal[1]);
+
+        if (temp < MinVal)
+        {
+
+
+            TimeMin = VecVal[0];
+
+            IdMin = VecVal[2];
+
+            MinVal = temp;
+
+
+        }
+
+    }
+
+    return std::make_tuple(TimeMin, IdMin, MinVal);
+    
+}
+
+static std::tuple<int, int> ValueLimit(const std::list<std::vector<std::string>>& InputList, float LV)
+{
+
+    int TimesOver = 0;
+    int TimesUnder = 0;
+
+
+        // denna for loop checkar alla gånger datan är under eller över gränsvärdet man la till
+        for (const auto& vec : InputList)
+        {
+            double temp = stod(vec[1]);
+
+            if (temp < LV)
+            {
+
+                TimesUnder++;
+
+            }
+            else if (temp > LV)
+            {
+
+                TimesOver++;
+
+            }
+        }
+    
+
+    return std::make_tuple(TimesOver, TimesUnder);
+
+}
 
 static double SummOfList(const std::list<std::vector<std::string>>& InputList)
 {
@@ -109,10 +258,10 @@ static double Varia(const std::list<std::vector<std::string>>& InputList)
     //detta subtraherar alla värderna med medelvärdet
     for (const auto& VecVal : InputList)
     {
-        double temp = stod(VecVal[1]);
-        double tempvar = temp - StandAvg;
+        double Temp = stod(VecVal[1]);
+        double TempVar = Temp - StandAvg;
 
-        StandardDeviation.push_back(tempvar);
+        StandardDeviation.push_back(TempVar);
 
     }
 
@@ -120,34 +269,100 @@ static double Varia(const std::list<std::vector<std::string>>& InputList)
     for (int i = 0; i < size(StandardDeviation); i++)
     {
 
-        double tempvar = pow(StandardDeviation[i], 2);
+        double TempVar = pow(StandardDeviation[i], 2);
 
-        StandardDeviation[i] = tempvar;
+        StandardDeviation[i] = TempVar;
 
     }
 
     // deklarering a kvadrerade tal
-    double Kvad = 0;
+    double Squere = 0;
 
     //loop för att addera ihop all Kvad tal
     for (double i : StandardDeviation)
     {
 
-        Kvad = Kvad + i;
+        Squere = Squere + i;
 
     }
 
-    return Kvad;
+    return Squere;
 
 }
 
+static double DataListInput(int i, std::list<std::vector<std::string>>& InputList, double InputValue)
+{
 
+    //vector för värdet med storlek (3) så jag kan ha tid när den skapades nummer# vilken årdning den skapades och till sist valuen av datan
+    std::vector<std::string> Values(3);
+
+    std::cout << "[" << i + 1 << "]" << "Value: ";
+
+    //här är för att lägga till tiden
+    time_t TimeStamp;
+    time(&TimeStamp);
+    Values[0] = ctime(&TimeStamp);
+
+
+    //detta är för att ge nummeret på vilken värde det är
+    std::string convert = std::to_string((size(InputList) + 1));
+    std::string dataLabel = convert + "#";
+    std::cout << dataLabel << std::endl;
+    Values[2] = dataLabel;
+
+
+    
+    std::string TempString = std::to_string(InputValue);
+    Values[1] = TempString;
+
+    InputList.push_back(Values);
+
+}
+
+static double MovingAvarage(double EndBoundry, double BeginBoundry, std::list<std::vector<std::string>>& InputList)
+{
+    
+    double MovingAvarageTemporary = 0;
+    double MovingAvgSizeTemporary = 0;
+
+    while (EndBoundry < BeginBoundry)
+    {
+        std::cin.clear();
+        std::streamsize InputBufferLimit = 10000;
+        std::cin.ignore(InputBufferLimit, '\n');
+        std::cout << "EndBoundry has to be after BeginBoundry. " << std::endl;
+        std::cout << "Enter another value: ";
+        std::cin >> EndBoundry;
+    }
+    // detta går igenom från där du ville starta till där du villa sluta
+    for (const auto& vec : InputList)
+    {
+        int temp = stod(vec[2]);
+        if (temp >= BeginBoundry)
+        {
+
+            MovingAvarageTemporary += stod(vec[1]);
+            MovingAvgSizeTemporary++;
+
+        }
+        else if (temp == EndBoundry)
+        {
+
+            break;
+
+        }
+
+    }
+
+    return MovingAvarageTemporary / MovingAvgSizeTemporary;
+
+
+}
 
 
 int main()
 {
     MainFunction Main;
-
 
     bool run = true;
 
@@ -155,16 +370,12 @@ int main()
     time_t timestamp;
     time(&timestamp);
 
-
     std::list<std::vector<std::string>> DataEntries = {};
-
 
     //menyn loop
 
     while (run == true)
     {
-
-        
 
         //tar bort det som är skrivet innan
         system("CLS");
@@ -176,10 +387,8 @@ int main()
         //menyval NumberChoice(); funktionen är en fail safe ifal man skiver en bokstav istället för ett nummer
         int Choice = Main.NumberChoice(MenyChoice);
 
-
         switch (Choice)
         {
-
         case 1:
         {
 
@@ -189,34 +398,13 @@ int main()
 
             int Times = Main.NumberChoice(TimesChoice);
 
-
+            
             for (int i = 0; i < Times; i++)
             {
 
-                //vector för värdet med storlek (3) så jag kan ha tid när den skapades nummer# vilken årdning den skapades och till sist valuen av datan
-                std::vector<std::string> Values(3);
-
-                std::cout << "[" << i + 1 << "]" << "Value: ";
-
-                //här är för att lägga till tiden
-                time_t TimeStamp;
-                time(&TimeStamp);
-                Values[0] = ctime(&TimeStamp);
-
-
-                //detta är för att ge nummeret på vilken värde det är
-                std::string convert = std::to_string((size(DataEntries) + 1));
-                std::string dataLabel = convert + "#";
-                std::cout << dataLabel << std::endl;
-                Values[2] = dataLabel;
-
-
-                double InputValue = 0;
-                std::cin >> InputValue;
-                std::string TempString = std::to_string(InputValue);
-                Values[1] = TempString;
-
-                DataEntries.push_back(Values);
+                double InputVal = 0;
+                std::cin >> InputVal;
+                DataListInput(i, DataEntries, InputVal);
 
             }
 
@@ -245,32 +433,10 @@ int main()
                 if ((char)toupper(Des) == 'Y')
                 {
 
-
-
                     //detta går igenom alla vectorer och skriver ut dem
-
-                    for (const auto& vec : DataEntries)
-                    {
-
-
-                        std::cout << "--------------------" << std::endl;
-
-
-                        std::cout << vec[0] << std::endl;
-
-                        std::cout << vec[2] << std::endl;
-
-                        std::cout << vec[1] << std::endl;
-
-
-                        std::cout << "--------------------" << std::endl;
-
-
-                    }
-
+                    PrintVectorList(DataEntries);
 
                     Print = false;
-
 
                 }
 
@@ -349,7 +515,6 @@ int main()
 
                 //function för att summrera all data
                 double SumVal = SummOfList(DataEntries);
-
                 std::cout << "The sum of all the values is " << SumVal << std::endl;
 
 
@@ -357,73 +522,15 @@ int main()
                 std::cout << "Avarage of all values " << SumVal / size(DataEntries) << std::endl;
 
 
-                // här får jag maximum valuen och minimum valuen så att koden har en refrence att comparea mot
-                double MinVal = std::numeric_limits<double>::max();
-                double MaxVal = std::numeric_limits<double>::min();
+                std::string TimeMin, TimeMax, IdMin, IdMax;
+                float MinVal, MaxVal;
+                tie(TimeMin, IdMin, MinVal) = PrintListMin(DataEntries);
+                std::cout << "Min: \n" << TimeMin << IdMin << "\n" << MinVal << "\n" << std::endl;
 
-
-                std::string TimeMax = "";
-                std::string NumbMax = "";
-
-
-                //detta frå fram max value
-
-                for (const auto& VecVal : DataEntries)//checkar genom listan alla vectorer
-                {
-
-                    double temp = stod(VecVal[1]);
-
-                    //gör [1] för att det är på den indexen som data valuen är på
-
-                    if (temp > MaxVal)
-                    {
-
-
-                        TimeMax = VecVal[0];
-
-                        NumbMax = VecVal[2];
-
-                        MaxVal = temp;
-
-
-                    }
-
-
-                }
-
-
-                std::string TimeMin = "";
-                std::string NumbMin = "";
-
-
-                // detta får fram minsta value
-
-                for (const auto& VecVal : DataEntries)
-                {
-
-                    double temp = stod(VecVal[1]);
-
-                    if (temp < MinVal)
-                    {
-
-
-                        TimeMin = VecVal[0];
-
-                        NumbMin = VecVal[2];
-
-                        MinVal = temp;
-
-
-                    }
-
-
-                }
-
-
-                std::cout << "Min: \n" << TimeMin << NumbMin << "\n" << MinVal << "\n" << std::endl;
-                std::cout << "Max: \n" << TimeMax << NumbMax << "\n" << MaxVal << "\n" << std::endl;
-
-
+                tie(TimeMax, IdMax, MaxVal) = PrintListMax(DataEntries);
+                std::cout << "Max: \n" << TimeMax << IdMax << "\n" << MaxVal << "\n" << std::endl;
+                
+                
                 double Varians = Varia(DataEntries);
                 std::cout << "The sample varians is " << Varians / (size(DataEntries) - 1) << std::endl;
                 std::cout << "The population varians is " << Varians / size(DataEntries) << std::endl;
@@ -435,71 +542,25 @@ int main()
                 if ((char)toupper(Des) == 'Y')
                 {
 
-                    // denna for loop checkar alla gånger datan är under eller över gränsvärdet man la till
-                    for (const auto& vec : DataEntries)
-                    {
-                        double temp = stod(vec[1]);
-
-                        if (temp < LimitValue)
-                        {
-
-                            TimesUnder++;
-
-                        }
-                        else if (temp > LimitValue)
-                        {
-
-                            TimesOver++;
-
-                        }
-                    }
+                    tie(TimesOver, TimesUnder) = ValueLimit(DataEntries, LimitValue);
 
                     std::cout << "this is how many times you were over the limit value [" << TimesOver << "]" << std::endl;
                     std::cout << "this is how many times you were under the limit value [" << TimesUnder << "]" << std::endl;
 
+
                     //moving avarage
-
-                    std::cout << "Your moving avarage is:  " << std::endl;
-                    double MovingAvarage = 0;
-                    int MovingAvgSize = 0;
-                    int BeginBoundry = 0;
-                    int EndBoundry = 0;
                     std::string BBound = "\nBeginBoundry: ";
+                    int BeginBoundry = 0;
                     BeginBoundry = Main.NumberChoice(BBound);
-
+                    
                     std::string EBound = "\nEndBoundry: ";
+                    int EndBoundry = 0;
                     EndBoundry = Main.NumberChoice(EBound);
+
+
                     //har detta ifall man sätter EndBoundryn innnan BeginBoundryn för då kommer det inte funka
-                    while (EndBoundry < BeginBoundry)
-                    {
-                        std::cin.clear();
-                        std::streamsize InputBufferLimit = 10000;
-                        std::cin.ignore(InputBufferLimit, '\n');
-                        std::cout << "EndBoundry has to be after BeginBoundry. " << std::endl;
-                        std::cout << "Enter another value: ";
-                        std::cin >> EndBoundry;
-                    }
-                    // detta går igenom från där du ville starta till där du villa sluta
-                    for (const auto& vec : DataEntries)
-                    {
-                        int temp = stod(vec[2]);
-                        if (temp >= BeginBoundry)
-                        {
-
-                            MovingAvarage += stod(vec[1]);
-                            MovingAvgSize++;
-
-                        }
-                        else if (temp == EndBoundry)
-                        {
-
-                            break;
-
-                        }
-
-                    }
-
-                    std::cout << "Moving avarage is : " << MovingAvarage / MovingAvgSize << std::endl;
+                    double MovingAvarageSum = MovingAvarage(EndBoundry, BeginBoundry , DataEntries);
+                    std::cout << "Moving avarage is : " << MovingAvarageSum << std::endl;
 
                 }
 
@@ -534,32 +595,9 @@ int main()
             for (int i = 0; i < Times; i++)
             {
 
-                //vector för värdet med storlek (3) så jag kan ha tid när den skapades nummer# vilken årdning den skapades och till sist valuen av datan
-                std::vector<std::string> Values(3);
-
-                std::cout << "[" << i + 1 << "]" << "Value: ";
-
-                //här är för att lägga till tiden
-                time_t TimeStamp;
-                time(&TimeStamp);
-                Values[0] = ctime(&TimeStamp);
-
-
-                //detta är för att ge nummeret på vilken värde det är
-                std::string convert = std::to_string((size(DataEntries) + 1));
-                std::string dataLabel = convert + "#";
-                std::cout << dataLabel << std::endl;
-                Values[2] = dataLabel;
-
-
-                //här är random funktionen för att få fram random value för programet
                 double f = (double)rand() / RAND_MAX;
                 double RandValue = 20 + f * (30 - 20);
-                std::string TempString = std::to_string(RandValue);
-                std::cout << TempString << std::endl;
-                Values[1] = TempString;
-
-                DataEntries.push_back(Values);
+                DataListInput(i, DataEntries, RandValue);
 
             }
 
@@ -584,25 +622,7 @@ int main()
             else
             {
 
-                // går genom alla vectorer
-                for (const auto& vec : DataEntries)
-                {
-
-                    int temp = round(stod(vec[1]));
-                    for (int i = 0; i < round(temp / 2); i++) // for loopen printar "*" så att man kan se visualiserat hur tempraturen går ne och up
-                    {
-
-
-                        std::cout << "*";
-                        //andvänder den här för att den inte bara pruntar ut alla "*" på en gång
-                        this_thread::sleep_for(chrono::seconds(1));
-
-                    }
-
-                    cout << "   " << vec[1] << endl;
-                    cout << "\n";
-
-                }
+                DataVisulisation(DataEntries);
 
             }
 
