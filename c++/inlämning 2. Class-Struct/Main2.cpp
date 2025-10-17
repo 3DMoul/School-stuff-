@@ -126,7 +126,7 @@ void PrintVectorList(const std::list<std::vector<std::string>>& InputList)
     
 }
 
-static std::tuple<std::string, std::string, float>  PrintListMax(const std::list<std::vector<std::string>>& InputList)
+static std::tuple<std::string, std::string, double>  PrintListMax(const std::list<std::vector<std::string>>& InputList)
 {
 
     //minimum valuen så att koden har en refrence att comparea mot
@@ -163,7 +163,7 @@ static std::tuple<std::string, std::string, float>  PrintListMax(const std::list
     
 }
 
-static std::tuple<std::string, std::string, float> PrintListMin(const std::list<std::vector<std::string>>& InputList)
+static std::tuple<std::string, std::string, double> PrintListMin(const std::list<std::vector<std::string>>& InputList)
 {
 
     //denna variabel tar fram max value för att comparea cilken som är minst
@@ -197,7 +197,7 @@ static std::tuple<std::string, std::string, float> PrintListMin(const std::list<
     
 }
 
-static std::tuple<int, int> ValueLimit(const std::list<std::vector<std::string>>& InputList, float LV)
+static std::tuple<int, int> ValueLimit(const std::list<std::vector<std::string>>& InputList, double LV)
 {
 
     int TimesOver = 0;
@@ -290,7 +290,7 @@ static double Varia(const std::list<std::vector<std::string>>& InputList)
 
 }
 
-static double DataListInput(int i, std::list<std::vector<std::string>>& InputList, double InputValue)
+static std::vector<std::string> DataListInput(int i, std::list<std::vector<std::string>>& InputList, double InputValue)
 {
 
     //vector för värdet med storlek (3) så jag kan ha tid när den skapades nummer# vilken årdning den skapades och till sist valuen av datan
@@ -315,8 +315,8 @@ static double DataListInput(int i, std::list<std::vector<std::string>>& InputLis
     std::string TempString = std::to_string(InputValue);
     Values[1] = TempString;
 
-    InputList.push_back(Values);
-
+    
+    return Values;
 }
 
 static double MovingAvarage(double EndBoundry, double BeginBoundry, std::list<std::vector<std::string>>& InputList)
@@ -404,7 +404,7 @@ int main()
 
                 double InputVal = 0;
                 std::cin >> InputVal;
-                DataListInput(i, DataEntries, InputVal);
+                DataEntries.push_back(DataListInput(i, DataEntries, InputVal));
 
             }
 
@@ -597,7 +597,7 @@ int main()
 
                 double f = (double)rand() / RAND_MAX;
                 double RandValue = 20 + f * (30 - 20);
-                DataListInput(i, DataEntries, RandValue);
+                DataEntries.push_back(DataListInput(i, DataEntries, RandValue));
 
             }
 
