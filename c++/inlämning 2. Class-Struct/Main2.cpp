@@ -1,18 +1,18 @@
+#pragma once
+
+#ifndef Visualization_h
+#define Visualization_h
 #include <iostream>
-#include <vector>
 #include <string>
 #include <list>
-#include <cstring>
-#include <limits>
-#include <ctime>
-#include < cstdlib >
 #include <thread>
 #include <chrono>
-#include <stdlib.h>  
-#include <tuple>
+
 using namespace std;
 
-class MainFunction
+
+
+class VisialFunction
 {
 public:
     void PrintMenu()
@@ -68,593 +68,54 @@ public:
 
         return Choice;
     }
-
-};
-
-struct VectorAttributes
-{
-    std::string TimeStamp;
-    int NumbCreation;
-    float DataValue;
-};
-
-void DataVisulisation(const std::list<std::vector<std::string>>& InputList)
-{
-
-    // går genom alla vectorer
-    for (const auto& vec : InputList)
+    void DataVisulisation(const std::list<std::vector<std::string>>& InputList)
     {
 
-        int temp = round(stod(vec[1]));
-        for (int i = 0; i < round(temp / 2); i++) // for loopen printar "*" så att man kan se visualiserat hur tempraturen går ne och up
-        {
-
-
-            std::cout << "*";
-            //andvänder den här för att den inte bara pruntar ut alla "*" på en gång
-            this_thread::sleep_for(chrono::seconds(1));
-
-        }
-
-        std::cout << "   " << vec[1] << endl;
-        std::cout << "\n";
-
-    }
-}
-
-void PrintVectorList(const std::list<std::vector<std::string>>& InputList)
-{
-
-    for (const auto& vec : InputList)
-    {
-
-
-        std::cout << "--------------------" << std::endl;
-
-
-        std::cout << vec[0] << std::endl;
-
-        std::cout << vec[2] << std::endl;
-
-        std::cout << vec[1] << std::endl;
-
-
-        std::cout << "--------------------" << std::endl;
-
-
-    }
-    
-}
-
-static std::tuple<std::string, std::string, double>  PrintListMax(const std::list<std::vector<std::string>>& InputList)
-{
-
-    //minimum valuen så att koden har en refrence att comparea mot
-    double MaxVal = std::numeric_limits<double>::min();
-
-    //detta frå fram max value
-    std::string TimeMax;
-    std::string IdMax;
-
-    for (const auto& VecVal : InputList)//checkar genom listan alla vectorer
-    {
-
-        double Temp = stod(VecVal[1]);
-
-        //gör [1] för att det är på den indexen som data valuen är på
-
-        if (Temp > MaxVal)
-        {
-
-
-            TimeMax = VecVal[0];
-
-            IdMax = VecVal[2];
-
-            MaxVal = Temp;
-
-
-        }
-
-
-    }
-
-    return std::make_tuple(TimeMax, IdMax, MaxVal);
-    
-}
-
-static std::tuple<std::string, std::string, double> PrintListMin(const std::list<std::vector<std::string>>& InputList)
-{
-
-    //denna variabel tar fram max value för att comparea cilken som är minst
-    double MinVal = std::numeric_limits<double>::max(); 
-   
-    // detta får fram minsta value
-    std::string TimeMin;
-    std::string IdMin;
-
-    for (const auto& VecVal : InputList)
-    {
-
-        double temp = stod(VecVal[1]);
-
-        if (temp < MinVal)
-        {
-
-
-            TimeMin = VecVal[0];
-
-            IdMin = VecVal[2];
-
-            MinVal = temp;
-
-
-        }
-
-    }
-
-    return std::make_tuple(TimeMin, IdMin, MinVal);
-    
-}
-
-static std::tuple<int, int> ValueLimit(const std::list<std::vector<std::string>>& InputList, double LV)
-{
-
-    int TimesOver = 0;
-    int TimesUnder = 0;
-
-
-        // denna for loop checkar alla gånger datan är under eller över gränsvärdet man la till
+        // går genom alla vectorer
         for (const auto& vec : InputList)
         {
-            double temp = stod(vec[1]);
 
-            if (temp < LV)
+            int temp = round(stod(vec[1]));
+            for (int i = 0; i < round(temp / 2); i++) // for loopen printar "*" så att man kan se visualiserat hur tempraturen går ne och up
             {
 
-                TimesUnder++;
+
+                std::cout << "*";
+                //andvänder den här för att den inte bara pruntar ut alla "*" på en gång
+                this_thread::sleep_for(chrono::seconds(1));
 
             }
-            else if (temp > LV)
-            {
 
-                TimesOver++;
+            std::cout << "   " << vec[1] << endl;
+            std::cout << "\n";
 
-            }
         }
-    
-
-    return std::make_tuple(TimesOver, TimesUnder);
-
-}
-
-static double SummOfList(const std::list<std::vector<std::string>>& InputList)
-{
-    double SumVal = 0;
-
-    for (const auto& VecVal : InputList)
-    {
-
-        double temp = stod(VecVal[1]);
-
-        SumVal = SumVal + temp;
-
     }
 
-    return SumVal;
-
-}
-
-static double Varia(const std::list<std::vector<std::string>>& InputList)
-{
-
-
-    //vector för att hålla värderna för varians
-    std::vector<double> StandardDeviation = {};
-
-    double StandAvg = SummOfList(InputList);
-
-    StandAvg = StandAvg / size(InputList);
-    //detta subtraherar alla värderna med medelvärdet
-    for (const auto& VecVal : InputList)
-    {
-        double Temp = stod(VecVal[1]);
-        double TempVar = Temp - StandAvg;
-
-        StandardDeviation.push_back(TempVar);
-
-    }
-
-    //detta kvadrerar alla dem subtraherade nummrena
-    for (int i = 0; i < size(StandardDeviation); i++)
+    void PrintVectorList(const std::list<std::vector<std::string>>& InputList)
     {
 
-        double TempVar = pow(StandardDeviation[i], 2);
-
-        StandardDeviation[i] = TempVar;
-
-    }
-
-    // deklarering a kvadrerade tal
-    double Squere = 0;
-
-    //loop för att addera ihop all Kvad tal
-    for (double i : StandardDeviation)
-    {
-
-        Squere = Squere + i;
-
-    }
-
-    return Squere;
-
-}
-
-static std::vector<std::string> DataListInput(int i, std::list<std::vector<std::string>>& InputList, double InputValue)
-{
-
-    //vector för värdet med storlek (3) så jag kan ha tid när den skapades nummer# vilken årdning den skapades och till sist valuen av datan
-    std::vector<std::string> Values(3);
-
-    std::cout << "[" << i + 1 << "]" << "Value: ";
-
-    //här är för att lägga till tiden
-    time_t TimeStamp;
-    time(&TimeStamp);
-    Values[0] = ctime(&TimeStamp);
-
-
-    //detta är för att ge nummeret på vilken värde det är
-    std::string convert = std::to_string((size(InputList) + 1));
-    std::string dataLabel = convert + "#";
-    std::cout << dataLabel << std::endl;
-    Values[2] = dataLabel;
-
-
-    
-    std::string TempString = std::to_string(InputValue);
-    Values[1] = TempString;
-
-    
-    return Values;
-}
-
-static double MovingAvarage(double EndBoundry, double BeginBoundry, std::list<std::vector<std::string>>& InputList)
-{
-    
-    double MovingAvarageTemporary = 0;
-    double MovingAvgSizeTemporary = 0;
-
-    while (EndBoundry < BeginBoundry)
-    {
-        std::cin.clear();
-        std::streamsize InputBufferLimit = 10000;
-        std::cin.ignore(InputBufferLimit, '\n');
-        std::cout << "EndBoundry has to be after BeginBoundry. " << std::endl;
-        std::cout << "Enter another value: ";
-        std::cin >> EndBoundry;
-    }
-    // detta går igenom från där du ville starta till där du villa sluta
-    for (const auto& vec : InputList)
-    {
-        int temp = stod(vec[2]);
-        if (temp >= BeginBoundry)
-        {
-
-            MovingAvarageTemporary += stod(vec[1]);
-            MovingAvgSizeTemporary++;
-
-        }
-        else if (temp == EndBoundry)
-        {
-
-            break;
-
-        }
-
-    }
-
-    return MovingAvarageTemporary / MovingAvgSizeTemporary;
-
-
-}
-
-
-int main()
-{
-    MainFunction Main;
-
-    bool run = true;
-
-    //här deklarerar jag tiden
-    time_t timestamp;
-    time(&timestamp);
-
-    std::list<std::vector<std::string>> DataEntries = {};
-
-    //menyn loop
-
-    while (run == true)
-    {
-
-        //tar bort det som är skrivet innan
-        system("CLS");
-
-        //meny
-        Main.PrintMenu();
-
-        std::string MenyChoice = "Choice 1-6: ";
-        //menyval NumberChoice(); funktionen är en fail safe ifal man skiver en bokstav istället för ett nummer
-        int Choice = Main.NumberChoice(MenyChoice);
-
-        switch (Choice)
-        {
-        case 1:
-        {
-
-            system("CLS");
-
-            std::string TimesChoice = "How many values do you want to add";
-
-            int Times = Main.NumberChoice(TimesChoice);
-
-            
-            for (int i = 0; i < Times; i++)
-            {
-
-                double InputVal = 0;
-                std::cin >> InputVal;
-                DataEntries.push_back(DataListInput(i, DataEntries, InputVal));
-
-            }
-
-        }
-
-        break;
-
-
-        case 2:
-        {
-
-            system("CLS");
-
-            bool Print = true;
-
-
-            while (Print == true)
-            {
-
-                std::cout << "You have [" << size(DataEntries) << "]" << std::endl;
-                std::cout << "Do you want to list them [Y/N] : " << std::endl;
-                char Des;
-                std::cin >> Des;
-
-                //använder toupper så man kan skriva bådde stor eller liten bokstav
-                if ((char)toupper(Des) == 'Y')
-                {
-
-                    //detta går igenom alla vectorer och skriver ut dem
-                    PrintVectorList(DataEntries);
-
-                    Print = false;
-
-                }
-
-                else if ((char)toupper(Des) == 'N')
-                {
-
-
-                    Print = false;
-
-
-                }
-
-                else
-                {
-
-
-                    std::cout << "Wrong input" << std::endl;
-
-
-                }
-
-                break;
-
-            }
-
-        }
-
-        Main.ENTER();
-
-        break;
-
-
-        case 3:
-        {
-
-            system("CLS");
-            char Des;
-            double LimitValue = 0;
-
-            std::cout << "Do you want add advanced functions like Limit Values and Moving Avarage: [Y]/[N]" << std::endl;
-            std::cin >> Des;
-
-            // detta är för att lägga till ett gränsvärde
-            if ((char)toupper(Des) == 'Y')
-            {
-
-                std::string LimitValueString = "What is the Limit value: ";
-
-                LimitValue = Main.NumberChoice(LimitValueString);
-
-            }
-
-
-            //if else beroende på om du har en value eller flera values
-            if (size(DataEntries) == 1)
-            {
-
-
-                std::cout << "You have " << size(DataEntries) << " value" << std::endl;
-
-
-                double SumVal = SummOfList(DataEntries);
-
-
-                std::cout << "The only value is " << SumVal << std::endl;
-
-
-            }
-
-            else if (size(DataEntries) > 1)
-            {
-
-
-                std::cout << "You have " << size(DataEntries) << " values" << std::endl;
-
-
-                //function för att summrera all data
-                double SumVal = SummOfList(DataEntries);
-                std::cout << "The sum of all the values is " << SumVal << std::endl;
-
-
-                // medelvärdet är summan av alla delat på hur många values du har
-                std::cout << "Avarage of all values " << SumVal / size(DataEntries) << std::endl;
-
-
-                std::string TimeMin, TimeMax, IdMin, IdMax;
-                float MinVal, MaxVal;
-                tie(TimeMin, IdMin, MinVal) = PrintListMin(DataEntries);
-                std::cout << "Min: \n" << TimeMin << IdMin << "\n" << MinVal << "\n" << std::endl;
-
-                tie(TimeMax, IdMax, MaxVal) = PrintListMax(DataEntries);
-                std::cout << "Max: \n" << TimeMax << IdMax << "\n" << MaxVal << "\n" << std::endl;
-                
-                
-                double Varians = Varia(DataEntries);
-                std::cout << "The sample varians is " << Varians / (size(DataEntries) - 1) << std::endl;
-                std::cout << "The population varians is " << Varians / size(DataEntries) << std::endl;
-
-
-                int TimesOver = 0;
-                int TimesUnder = 0;
-
-                if ((char)toupper(Des) == 'Y')
-                {
-
-                    tie(TimesOver, TimesUnder) = ValueLimit(DataEntries, LimitValue);
-
-                    std::cout << "this is how many times you were over the limit value [" << TimesOver << "]" << std::endl;
-                    std::cout << "this is how many times you were under the limit value [" << TimesUnder << "]" << std::endl;
-
-
-                    //moving avarage
-                    std::string BBound = "\nBeginBoundry: ";
-                    int BeginBoundry = 0;
-                    BeginBoundry = Main.NumberChoice(BBound);
-                    
-                    std::string EBound = "\nEndBoundry: ";
-                    int EndBoundry = 0;
-                    EndBoundry = Main.NumberChoice(EBound);
-
-
-                    //har detta ifall man sätter EndBoundryn innnan BeginBoundryn för då kommer det inte funka
-                    double MovingAvarageSum = MovingAvarage(EndBoundry, BeginBoundry , DataEntries);
-                    std::cout << "Moving avarage is : " << MovingAvarageSum << std::endl;
-
-                }
-
-
-
-            }
-
-            //detta kommer upp om du inte har några values fast försöker printa ut en lista endå
-            else
-            {
-
-                std::cout << "You currently dont have any data values to look at" << std::endl;
-
-            }
-
-        }
-
-        Main.ENTER();
-
-        break;
-
-
-        case 4:
-        {
-
-            system("CLS");
-
-            std::string TimesSimulate = "How many values do you want to simulate";
-
-            int Times = Main.NumberChoice(TimesSimulate);
-
-            for (int i = 0; i < Times; i++)
-            {
-
-                double f = (double)rand() / RAND_MAX;
-                double RandValue = 20 + f * (30 - 20);
-                DataEntries.push_back(DataListInput(i, DataEntries, RandValue));
-
-            }
-
-        }
-
-        Main.ENTER();
-
-        break;
-
-
-        case 5:
+        for (const auto& vec : InputList)
         {
 
 
-            //här kollas det om du har några värden i listan om du inte har det så kommer den bara gå tillbacka till menyn
-            if (size(DataEntries) == 0)
-            {
-
-                std::cout << "you have no values" << std::endl;
-
-            }
-            else
-            {
-
-                DataVisulisation(DataEntries);
-
-            }
-
-        }
-
-        Main.ENTER();
-
-        break;
+            std::cout << "--------------------" << std::endl;
 
 
-        case 6: //stänger av loopen
+            std::cout << vec[0] << std::endl;
 
-            run = false;
+            std::cout << vec[2] << std::endl;
 
-            break;
+            std::cout << vec[1] << std::endl;
 
 
-        default: //om du skriver ett nummer som inte är en av alternativen   
-        {
-
-            std::cout << "Wrong input choices are between [1]-[6]" << std::endl;
-
-        }
-
-        break;
+            std::cout << "--------------------" << std::endl;
 
 
         }
 
     }
 
-    Main.ENTER();
-    return 0;
+};
 
-}
+#endif
