@@ -75,7 +75,7 @@ public:
         for (const auto& vec : InputList)
         {
 
-            int temp = round(stod(vec[1]));
+            int temp = round(stod(vec[2]));
             for (int i = 0; i < round(temp / 2); i++) // for loopen printar "*" så att man kan se visualiserat hur tempraturen går ne och up
             {
 
@@ -86,7 +86,7 @@ public:
 
             }
 
-            std::cout << "   " << vec[1] << endl;
+            std::cout << "   " << vec[2] << endl;
             std::cout << "\n";
 
         }
@@ -104,9 +104,9 @@ public:
 
             std::cout << vec[0] << std::endl;
 
-            std::cout << vec[2] << std::endl;
-
             std::cout << vec[1] << std::endl;
+
+            std::cout << vec[2] << std::endl;
 
 
             std::cout << "--------------------" << std::endl;
