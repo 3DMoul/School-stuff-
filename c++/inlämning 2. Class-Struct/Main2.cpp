@@ -5,11 +5,16 @@
 #include <string>
 #include <list>
 #include <ctime>
+#include <fstream>
+
+
 
 using namespace std;
 
+
 int main()
 {
+
     VisialFunction main;
 
     DataInput DataIn;
@@ -56,6 +61,9 @@ int main()
                 std::cin >> InputVal;
                 DataEntries.push_back(DataIn.DataListInput(i, DataEntries, InputVal));
 
+                
+
+                
             }
 
         }
@@ -303,7 +311,6 @@ int main()
         }
 
     }
-
     main.ENTER();
     return 0;
 
