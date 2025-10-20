@@ -12,9 +12,41 @@
 using namespace std;
 
 
+
 int main()
 {
+    std::list<std::vector<std::string>> DataEntries = {};
+    fstream TxTData;
 
+    TxTData.open("DataVals.txt", ios::in);
+    if (TxTData.is_open())
+    {
+        
+        string line;
+        while (getline(TxTData, line))
+        {
+            std::vector<std::string> Values(4);
+            for (int i = 0; i < 4; i++)
+            {
+                if(i == 0)
+                {
+
+                    Values[i] = line;
+
+                }
+                else if (i > 1)
+                {
+                    Values[i-1] = line;
+                }
+
+            }
+            
+            DataEntries.push_back(Values);
+
+        }
+        
+    }
+    TxTData.close();
     VisialFunction main;
 
     DataInput DataIn;
@@ -25,7 +57,7 @@ int main()
     time_t timestamp;
     time(&timestamp);
 
-    std::list<std::vector<std::string>> DataEntries = {};
+    
 
     //menyn loop
 
