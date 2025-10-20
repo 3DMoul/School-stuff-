@@ -45,12 +45,12 @@ public:
         std::string convert = std::to_string((size(InputList) + 1));
         std::string dataLabel = convert + "#";
         std::cout << dataLabel << std::endl;
-        Values[2] = dataLabel;
+        Values[1] = dataLabel;
 
 
 
         std::string TempString = std::to_string(InputValue);
-        Values[1] = TempString;
+        Values[2] = TempString;
 
         
         if (TxTData.fail())
@@ -63,8 +63,8 @@ public:
         {
             cout << "s";
             TxTData << Values[0] << std::endl;
-            TxTData << Values[2] << std::endl;
             TxTData << Values[1] << std::endl;
+            TxTData << Values[2] << std::endl;
             TxTData.close();
         }
         
@@ -86,7 +86,7 @@ public:
         for (const auto& VecVal : InputList)//checkar genom listan alla vectorer
         {
 
-            double Temp = stod(VecVal[1]);
+            double Temp = stod(VecVal[2]);
 
             //gör [1] för att det är på den indexen som data valuen är på
 
@@ -96,7 +96,7 @@ public:
 
                 TimeMax = VecVal[0];
 
-                IdMax = VecVal[2];
+                IdMax = VecVal[1];
 
                 MaxVal = Temp;
 
@@ -123,7 +123,7 @@ public:
         for (const auto& VecVal : InputList)
         {
 
-            double temp = stod(VecVal[1]);
+            double temp = stod(VecVal[2]);
 
             if (temp < MinVal)
             {
@@ -131,7 +131,7 @@ public:
 
                 TimeMin = VecVal[0];
 
-                IdMin = VecVal[2];
+                IdMin = VecVal[1];
 
                 MinVal = temp;
 
@@ -154,7 +154,7 @@ public:
         // denna for loop checkar alla gånger datan är under eller över gränsvärdet man la till
         for (const auto& vec : InputList)
         {
-            double temp = stod(vec[1]);
+            double temp = stod(vec[2]);
 
             if (temp < LV)
             {
@@ -182,7 +182,7 @@ public:
         for (const auto& VecVal : InputList)
         {
 
-            double temp = stod(VecVal[1]);
+            double temp = stod(VecVal[2]);
 
             SumVal = SumVal + temp;
 
@@ -205,7 +205,7 @@ public:
         //detta subtraherar alla värderna med medelvärdet
         for (const auto& VecVal : InputList)
         {
-            double Temp = stod(VecVal[1]);
+            double Temp = stod(VecVal[2]);
             double TempVar = Temp - StandAvg;
 
             StandardDeviation.push_back(TempVar);
@@ -255,11 +255,11 @@ public:
         // detta går igenom från där du ville starta till där du villa sluta
         for (const auto& vec : InputList)
         {
-            int temp = stod(vec[2]);
+            int temp = stod(vec[1]);
             if (temp >= BeginBoundry)
             {
 
-                MovingAvarageTemporary += stod(vec[1]);
+                MovingAvarageTemporary += stod(vec[2]);
                 MovingAvgSizeTemporary++;
 
             }
