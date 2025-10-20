@@ -11,14 +11,24 @@
 #include <thread>
 #include <chrono>
 #include <tuple>
+#include <fstream>
 
+using namespace std;
 
+ofstream TxTData;
 
-class DataInput
+struct DataInput
 {
+
 public:
+
+
+
     static std::vector<std::string> DataListInput(int i, std::list<std::vector<std::string>>& InputList, double InputValue)
     {
+
+        
+
 
         //vector för värdet med storlek (3) så jag kan ha tid när den skapades nummer# vilken årdning den skapades och till sist valuen av datan
         std::vector<std::string> Values(3);
@@ -42,8 +52,25 @@ public:
         std::string TempString = std::to_string(InputValue);
         Values[1] = TempString;
 
+        
+        if (TxTData.fail())
+        {
+            std::cout << "error opening file" << std::endl;
+            TxTData.close();
+        }
+        TxTData.open("DataVals.txt", ios::app);
+        if (TxTData.is_open())
+        {
+            cout << "s";
+            TxTData << Values[0] << std::endl;
+            TxTData << Values[2] << std::endl;
+            TxTData << Values[1] << std::endl;
+            TxTData.close();
+        }
+        
 
         return Values;
+        
     }
 
     static std::tuple<std::string, std::string, double>  PrintListMax(const std::list<std::vector<std::string>>& InputList)
@@ -254,3 +281,6 @@ public:
 };
 
 #endif
+
+
+
