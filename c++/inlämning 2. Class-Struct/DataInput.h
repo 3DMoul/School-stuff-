@@ -27,7 +27,7 @@ public:
     static std::vector<std::string> DataListInput(int i, std::list<std::vector<std::string>>& InputList, double InputValue)
     {
 
-        
+
 
 
         //vector för värdet med storlek (3) så jag kan ha tid när den skapades nummer# vilken årdning den skapades och till sist valuen av datan
@@ -38,8 +38,11 @@ public:
         //här är för att lägga till tiden
         time_t TimeStamp;
         time(&TimeStamp);
-        Values[0] = ctime(&TimeStamp);
-
+        char *temp;
+        temp = asctime(localtime(&TimeStamp));
+        temp[strlen(temp) - 1] = '\0';
+        Values[0] = temp;
+        
 
         //detta är för att ge nummeret på vilken värde det är
         std::string convert = std::to_string((size(InputList) + 1));
@@ -52,7 +55,7 @@ public:
         std::string TempString = std::to_string(InputValue);
         Values[2] = TempString;
 
-        
+
         if (TxTData.fail())
         {
             std::cout << "error opening file" << std::endl;
@@ -61,16 +64,16 @@ public:
         TxTData.open("DataVals.txt", ios::app);
         if (TxTData.is_open())
         {
-            cout << "s";
-            TxTData << Values[0] << std::endl;
-            TxTData << Values[1] << std::endl;
-            TxTData << Values[2] << std::endl;
+            
+            TxTData << Values[0] << endl;
+            TxTData << Values[1] << endl;
+            TxTData << Values[2] << endl;
             TxTData.close();
         }
-        
+
 
         return Values;
-        
+
     }
 
     static std::tuple<std::string, std::string, double>  PrintListMax(const std::list<std::vector<std::string>>& InputList)
@@ -281,6 +284,3 @@ public:
 };
 
 #endif
-
-
-
