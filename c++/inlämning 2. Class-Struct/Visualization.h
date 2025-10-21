@@ -99,17 +99,17 @@ public:
         {
 
 
-            std::cout << "--------------------" << std::endl;
+            std::cout << "--------------------\n" << std::endl;
 
 
-            std::cout << vec[0] << std::endl;
+            std::cout << vec[0] << "\n" << std::endl;
 
             std::cout << vec[1] << std::endl;
 
             std::cout << vec[2] << std::endl;
 
 
-            std::cout << "--------------------" << std::endl;
+            std::cout << "\n--------------------" << std::endl;
 
 
         }
