@@ -6,59 +6,62 @@
 #include <list>
 #include <ctime>
 #include <fstream>
+#include <sstream>
 
 
 
 using namespace std;
-
+struct Measurement {
+    string timestamp;
+    float value;
+};
 
 
 int main()
 {
     std::list<std::vector<std::string>> DataEntries = {};
-    fstream TxTData;
-
+    ifstream TxTData;
+     
     TxTData.open("DataVals.txt", ios::in);
     if (TxTData.is_open())
     {
-        
+        int times = 0;
+        std::vector<std::string> Values(3);
         string line;
         while (getline(TxTData, line))
         {
-            std::vector<std::string> Values(4);
-            for (int i = 0; i < 4; i++)
-            {
-                if(i == 0)
-                {
 
-                    Values[i] = line;
-
-                }
-                else if (i > 1)
-                {
-                    Values[i-1] = line;
-                }
-
-            }
+           if (times < 3)
+           {
             
-            DataEntries.push_back(Values);
+               Values[times] = line;
+               times++;
+
+           }
+           
+           if (times == 3)
+           {
+               times = 0;
+               DataEntries.push_back(Values);
+
+           }
+                
+
 
         }
-        
     }
-    TxTData.close();
+
+   
     VisialFunction main;
 
     DataInput DataIn;
 
     bool run = true;
-
+    
     //här deklarerar jag tiden
     time_t timestamp;
     time(&timestamp);
-
     
-
     //menyn loop
 
     while (run == true)
@@ -85,7 +88,7 @@ int main()
 
             int Times = main.NumberChoice(TimesChoice);
 
-            
+
             for (int i = 0; i < Times; i++)
             {
 
@@ -93,9 +96,9 @@ int main()
                 std::cin >> InputVal;
                 DataEntries.push_back(DataIn.DataListInput(i, DataEntries, InputVal));
 
-                
 
-                
+
+
             }
 
         }
@@ -219,8 +222,8 @@ int main()
 
                 tie(TimeMax, IdMax, MaxVal) = DataIn.PrintListMax(DataEntries);
                 std::cout << "Max: \n" << TimeMax << IdMax << "\n" << MaxVal << "\n" << std::endl;
-                
-                
+
+
                 double Varians = DataIn.Variance(DataEntries);
                 std::cout << "The sample varians is " << Varians / (size(DataEntries) - 1) << std::endl;
                 std::cout << "The population varians is " << Varians / size(DataEntries) << std::endl;
@@ -242,14 +245,14 @@ int main()
                     std::string BBound = "\nBeginBoundry: ";
                     int BeginBoundry = 0;
                     BeginBoundry = main.NumberChoice(BBound);
-                    
+
                     std::string EBound = "\nEndBoundry: ";
                     int EndBoundry = 0;
                     EndBoundry = main.NumberChoice(EBound);
 
 
                     //har detta ifall man sätter EndBoundryn innnan BeginBoundryn för då kommer det inte funka
-                    double MovingAvarageSum = DataIn.MovingAvarage(EndBoundry, BeginBoundry , DataEntries);
+                    double MovingAvarageSum = DataIn.MovingAvarage(EndBoundry, BeginBoundry, DataEntries);
                     std::cout << "Moving avarage is : " << MovingAvarageSum << std::endl;
 
                 }
@@ -342,8 +345,9 @@ int main()
 
         }
 
-    }
-    main.ENTER();
-    return 0;
+    } 
+     TxTData.close();
+     main.ENTER();
+     return 0;
 
 }
