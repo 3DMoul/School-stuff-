@@ -1,5 +1,4 @@
 #pragma once
-
 #ifndef Visualization_h
 #define Visualization_h
 #include <iostream>
@@ -7,12 +6,8 @@
 #include <list>
 #include <thread>
 #include <chrono>
-
 using namespace std;
-
-
-
-class VisialFunction
+class VisualFunction
 {
 public:
     void PrintMenu()
@@ -31,91 +26,55 @@ public:
         std::cout << "[10]" << std::endl;*/
         std::cout << "---------------------------------" << std::endl;
     }
-
     void ENTER()
     {
-
         std::cout << "Klick \"ENTER\" too continue" << std::endl;
-
         std::string str;
-
         std::getline(std::cin, str);
-
         std::streamsize InputBufferLimit = 10000;
-
         std::cin.ignore(InputBufferLimit, '\n');
     }
-
     static int NumberChoice(std::string StringInput)
     {
-
         std::cout << StringInput << std::endl;
-
         int Choice;
-
         //failsafe loop för val
         while (!(std::cin >> Choice))
         {
-
             std::cout << "Error you have inputed a invalid value please input a number:  " << std::endl;
             std::cin.clear();
             std::streamsize InputBufferLimit = 10000;
             std::cin.ignore(InputBufferLimit, '\n');
             std::cout << StringInput << std::endl;
-
         }
-
-
         return Choice;
     }
-    void DataVisulisation(const std::list<std::vector<std::string>>& InputList)
+    void TempretureVisulisation(const std::list<std::vector<std::string>>& InputList)
     {
-
         // går genom alla vectorer
         for (const auto& vec : InputList)
         {
-
             int temp = round(stod(vec[2]));
             for (int i = 0; i < round(temp / 2); i++) // for loopen printar "*" så att man kan se visualiserat hur tempraturen går ne och up
             {
-
-
                 std::cout << "*";
                 //andvänder den här för att den inte bara pruntar ut alla "*" på en gång
                 this_thread::sleep_for(chrono::seconds(1));
-
             }
-
             std::cout << "   " << vec[2] << " C" << endl;
             std::cout << "\n";
-
         }
     }
-
     void PrintVectorList(const std::list<std::vector<std::string>>& InputList)
     {
-
         for (const auto& vec : InputList)
         {
-
-
             std::cout << "--------------------\n" << std::endl;
-
-
-            std::cout << vec[0] << " C" << "\n" << std::endl;
-
-            std::cout << vec[1] << " C" << std::endl;
-
+            std::cout << vec[0] << "\n" << std::endl;
+            std::cout << vec[1] << std::endl;
             std::cout << vec[2] << " C" << std::endl;
-
-
             std::cout << "\n--------------------" << std::endl;
-
-
         }
-
     }
-
 };
-
 #endif
