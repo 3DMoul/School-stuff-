@@ -242,26 +242,27 @@ värdet jag får från SummOfVector(); delar jag med size(DataEntries); för att
 sen deklarerar jag strings för min och max värdet och doublen för min och max värdet efter det går vectorn igenom och kollar på min och max värdet med PrintListMax(); och PrintListMin();
 
 {
-static std::tuple<std::string, std::string, double>  PrintListMax(const std::vector<Measurement>& MeasurmentList)
-{
-    //minimum valuen så att koden har en refrence att comparea mot
-    double MaxVal = std::numeric_limits<double>::min();
-    //detta frå fram max value
-    std::string TimeMax;
-    std::string IdMax;
-    for (int i = 0; i < size(MeasurmentList); i++)//checkar genom listan alla vectorer
-    {
-        double Temp = MeasurmentList[i].TepretureInput;
-        //gör [1] för att det är på den indexen som data valuen är på
-        if (Temp > MaxVal)
-        {
-            TimeMax = MeasurmentList[i].TimeStamp;
-            IdMax = MeasurmentList[i].TempretureNumber;
-            MaxVal = Temp;
-        }
-    }
-    return std::make_tuple(TimeMax, IdMax, MaxVal);
-}
+ static std::tuple<std::string, std::string, double>  PrintListMax(const std::vector<Measurement>& MeasurmentList)
+ {
+     //minimum valuen så att koden har en refrence att comparea mot
+     double MaxVal = std::numeric_limits<double>::min();
+     //detta frå fram max value
+     std::string TimeMax;
+     std::string IdMax;
+     //checkar genom listan alla vectorer
+     for (int i = 0; i < size(MeasurmentList); i++)
+     {
+         double Temp = MeasurmentList[i].TepretureInput;
+         //gör [1] för att det är på den indexen som data valuen är på
+         if (Temp > MaxVal)
+         {
+             TimeMax = MeasurmentList[i].TimeStamp;
+             IdMax = MeasurmentList[i].TempretureNumber;
+             MaxVal = Temp;
+         }
+     }
+     return std::make_tuple(TimeMax, IdMax, MaxVal);
+ }
 }
 
 {
