@@ -4,6 +4,46 @@ start med deklarering av listan (DataEntries) som datan ska in i.
 
 på rad 18-48
 sen lägger jag in selectad txt file jag använder en while loppe för att gå igenom och ge mig alla rader som jag lägger in i en vector som jag lägger in i listan. Pågrund av hur jag har laggt in text i filen så måste jag ha ett sätt att lägga in rader på index "0,1,2" sen reseta så jag deklarerar en int times som ökar värde varje runda igenom while loppen detta times värde ger mig min index så att värderna är i rätt index när jag lägger in dem i listan och när times värde är "3" så har jag en if statment som lägger in linen i vectorn är att så lägge (times < 3)så ska den göra det if statment som lägger till vectorn med värden in i listan och sätter times värdet till "0" igen.
+ ifstream TempretureFile;
+ //går igenom värdena som var innan och skickar in dem i listan
+ TempretureFile.open("DataVals.txt", ios::in);
+ if (TempretureFile.is_open())
+ {
+     int times = 0;
+     std::vector<Measurement> Values(3);
+     string line;
+     //här går den igenom alla lines av txt filen samt lägger dem in i vector som sätts in i listan
+     while (getline(TempretureFile, line))
+     {
+         char str[256];
+         strcpy_s(str, line.c_str());
+         const char* del = ",";
+         Measurement new_measurement;
+         char* next_token = nullptr;
+         char* FileSegment = strtok_s(str, del, &next_token);
+         int FileIteration = 0;
+         while (FileSegment != nullptr) 
+         {
+             if (FileIteration == 0)
+             {
+                 new_measurement.TimeStamp = FileSegment;
+             }
+             else if (FileIteration == 1)
+             {
+                 new_measurement.TempretureNumber = FileSegment;
+             }
+             else if (FileIteration == 2)
+             {
+                 new_measurement.TepretureInput = stod(FileSegment);
+             }
+             
+             FileSegment = strtok_s(nullptr, del, &next_token);
+             FileIteration++;
+         }
+         MeasurmentList.push_back(new_measurement);
+     }
+ }
+ TempretureFile.close();
 
 på rad 51-55
 Efter detta så deklarerar jag classen och structen så jag kan använda dem i resten av programet och deklarerar bool run för att börja while loopen.
@@ -43,61 +83,55 @@ på rad 76-342
 på rad 78-98 
 är case 1 som är valet för att lägga in value manuelt
 innehåller "system("CLS");" som jag har för samma anledning som jag skrev tidigare. har även "main.NumberChoice();" för hur många värden man vill lägga in som jag lägger in i en int times variabel som jag deklarerar på samma rad som bästemer för for loopen när den ska sluta
-for (int i = 0; i < Times; i++)// så lägge i är mindre en times så kommer loopen itireras i ökar med "+1" varje loop
-{
 
-    double InputVal = 0;
-    std::cin >> InputVal;//här kan man manuelt skriva vilket värde man vill ha
-    DataEntries.push_back(DataIn.DataListInput(i, DataEntries, InputVal));// här lägger den till en vector som har alla värden för detta data set vilken tid den skapades vilket "#" den är i listan och värden
-    //som du mannuelt skrev in till listan. Man får alla dessa värden genom  "DataIn.DataListInput(i, DataEntries, InputVal)" functionen som jag skapa.
+ system("CLS");
+ std::string TepretureInputs = "How many values do you want to add";
+ //här inisierar jag hur många värden jag vill ha
+ int NumberOfInputs = DataInput.NumberChoice(TepretureInputs);
+ for (int i = 0; i < NumberOfInputs; i++)
+ {
+     // Vill ta in en termperatur: InputVal
+     // Vill ta fram timestamp för NU
+     double TempretureInput = 0;
+     std::cin >> TempretureInput;//här kan man manuelt skriva vilket värde man vill ha
+     // Skapa ny t.ex. Meaurement-instans
+     // och lägg till i vector
+     //DataEntries.push_back(Measurement(inputVal, timestamp));
+     DataInput.TempretureListInput(i, DataEntries, TempretureInput);
+ }
+
+void TempretureListInput(int i, std::vector<Measurement>& MeasurmentList, double InputTempreture)
+{
+    ofstream TempretureData;
     
-
-}
-
-static std::vector<std::string> DataListInput(int i, std::list<std::vector<std::string>>& InputList, double InputValue)
-{
-
-    //vector för värdet med storlek (3) så jag kan ha tid när den skapades nummer# vilken årdning den skapades och till sist valuen av datan
-    std::vector<std::string> Values(3);
-
     std::cout << "[" << i + 1 << "]" << "Value: ";
-
     //här är för att lägga till tiden
-    //Time_t  is used to store a timestamp value 
     time_t TimeStamp;
-    //Time() gives you current time and date 
     time(&TimeStamp);
-    char *temp;
-    temp = asctime(localtime(&TimeStamp));
-    temp[strlen(temp) - 1] = '\0';// detta gör att man inte får den newline av time_t
-    Values[0] = temp;
+    struct tm timeInfo;
+    localtime_s(&timeInfo, &TimeStamp);
+    char temp[26];
+    asctime_s(temp, sizeof(temp), &timeInfo);
+    temp[strlen(temp) - 1] = '\0'; // tar bort newline
     
-
+    //new_measurement.TimeStamp = temp;
     //detta är för att ge nummeret på vilken värde det är
-    std::string convert = std::to_string((size(InputList) + 1));
+    std::string convert = std::to_string((size(MeasurmentList) + 1));
     std::string dataLabel = convert + "#";
     std::cout << dataLabel << std::endl;
-    Values[1] = dataLabel;
-
-
-    std::string TempString = std::to_string(InputValue);
-    Values[2] = TempString;
-
+    
+    Measurement new_measurement{dataLabel, temp, InputTempreture };
     //här öppnar jag upp en ny txt.fil som jag lägger in värden i
-    TxTData.open("DataVals.txt", ios::app);
-    if (TxTData.is_open())
+    TempretureData.open("DataVals.txt", ios::app);
+    if (TempretureData.is_open())
     {
-        
         //här läggs det in i txt.filen
-        TxTData << Values[0] << endl;
-        TxTData << Values[1] << endl;
-        TxTData << Values[2] << endl;
-        TxTData.close();
+        TempretureData << new_measurement.TimeStamp << ",";
+        TempretureData << new_measurement.TempretureNumber << ",";
+        TempretureData << new_measurement.TepretureInput << endl;
+        TempretureData.close();
     }
-
-    // ger tillbacka vectorn som läggs in i listan
-    return Values;
-
+    MeasurmentList.push_back(new_measurement);
 }
 
 på rad 101-154
@@ -149,14 +183,14 @@ Börjar med en system("CLS"); och deklarering av bool för en while loop.
 //ENTER(); är en funtion som bara gör att du måste kicka enter för att continue
 
 break;
-void PrintVectorList(const std::list<std::vector<std::string>>& InputList)
+void PrintMeasurementList(const std::vector<Measurement>& MeasurmentList)
 {
-    for (const auto& vec : InputList)
+    for (int i = 0; i < size(MeasurmentList); i++)
     {
         std::cout << "--------------------\n" << std::endl;
-        std::cout << vec[0] << "\n" << std::endl;
-        std::cout << vec[1] << std::endl;
-        std::cout << vec[2] << " C" << std::endl;
+        std::cout << MeasurmentList[i].TimeStamp << "\n" << std::endl;
+        std::cout << MeasurmentList[i].TempretureNumber << std::endl;
+        std::cout << MeasurmentList[i].TepretureInput << " C" << std::endl;
         std::cout << "\n--------------------" << std::endl;
     }
 }
