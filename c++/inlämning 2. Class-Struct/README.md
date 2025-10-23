@@ -206,12 +206,12 @@ Case 3 – statistik av all temperaturdata.
         double SumVal = 0;
         for (int i = 0; i < size(MeasurmentList); i++)
         {
-            SumVal = SumVal + MeasurmentList[i].TepretureInput;
+            SumVal = SumVal + MeasurmentList[i].TepretureInput;//plussar ihop all TepretureInput in i SumVal
         }
         return SumVal;
     }
 }
-
+PrintListMax(); PrintListMin(); hittar max och min values av vectoren
 {
     static std::tuple<std::string, std::string, double> PrintListMax(const std::vector<Measurement>& MeasurmentList)
     {
@@ -253,16 +253,155 @@ Case 3 – statistik av all temperaturdata.
         return std::make_tuple(TimeMin, IdMin, MinVal);
     }
 }
+sen går den igenom Variance();
+{
+	static double Variance(const std::vector<Measurement>& MeasurmentList)
+	{
+	    //vector för att hålla värderna för varians
+	    std::vector<double> StandardDeviation = {};
+	    double StandAvg = SummOfVector(MeasurmentList);
+	    StandAvg = StandAvg / size(MeasurmentList);
+	    //detta subtraherar alla värderna med medelvärdet
+	    for (int i = 0; i < size(MeasurmentList); i++)
+	    {
+	        double Temp = MeasurmentList[i].TepretureInput;
+	        double TempVar = Temp - StandAvg;
+	        StandardDeviation.push_back(TempVar);
+	    }
+	    //detta kvadrerar alla dem subtraherade nummrena
+	    for (int i = 0; i < size(StandardDeviation); i++)
+	    {
+	        double TempVar = pow(StandardDeviation[i], 2);
+	        StandardDeviation[i] = TempVar;
+	    }
+	    // deklarering a kvadrerade tal
+	    double Squere = 0;
+	    //loop för att addera ihop all Kvad tal
+	    for (double i : StandardDeviation)
+	    {
+	        Squere = Squere + i;
+	    }
+	    return Squere;
+	}
+}
+efter detta så tittar den om du valde avancerade calculering moving avarage och gränsvärden
+{
+	static std::tuple<int, int> ValueLimit(const std::vector<Measurement>& MeasurmentList, double LV)
+	{
+	    int TimesOver = 0;
+	    int TimesUnder = 0;
+	    // denna for loop checkar alla gånger datan är under eller över gränsvärdet man la till
+	    for (int i = 0; i < size(MeasurmentList); i++)
+	    {
+	        double temp = MeasurmentList[i].TepretureInput;
+	        if (temp < LV)
+	        {
+	            TimesUnder++;
+	        }
+	        else if (temp > LV)
+	        {
+	            TimesOver++;
+	        }
+	    }
+	    return std::make_tuple(TimesOver, TimesUnder);
+	}
+}
 
+{
+	static double MovingAvarage(double EndBoundry, double BeginBoundry, std::vector<Measurement>& MeasurmentList)
+	{
+	    double MovingAvarageTemporary = 0;
+	    double MovingAvgSizeTemporary = 0;
+	    while (EndBoundry < BeginBoundry)
+	    {
+	        std::cin.clear();
+	        std::streamsize InputBufferLimit = 10000;
+	        std::cin.ignore(InputBufferLimit, '\n');
+	        std::cout << "EndBoundry has to be after BeginBoundry. " << std::endl;
+	        std::cout << "Enter another value: ";
+	        std::cin >> EndBoundry;
+	    }
+	    // detta går igenom från där du ville starta till där du villa sluta
+	    for (int i = 0; i < size(MeasurmentList); i++)
+	    {
+	        int temp = MeasurmentList[i].TempretureNumber[0];
+	        if (temp >= BeginBoundry)
+	        {
+	            MovingAvarageTemporary += MeasurmentList[i].TepretureInput;
+	            MovingAvgSizeTemporary++;
+	        }
+	        else if (temp == EndBoundry)
+	        {
+	            break;
+	        }
+	    }
+	    return MovingAvarageTemporary / MovingAvgSizeTemporary;
+	}
+}
 
 på rad 163–180
 Case 4 – för att simulera random temperaturvärden.
+här frågar den hur många tal du vill simulera och sen matar den in random doubles in i TempretureListInput();
+vilket ger datumet temperaturen recordades och vilken ordning den skapades i och lägger in  det i vectorn
+void TempretureListInput(int i, std::vector<Measurement>& MeasurmentList, double InputTempreture)
+{
+    ofstream TempretureData;
+    
+    std::cout << "[" << i + 1 << "]" << "Value: ";
+    //här är för att lägga till tiden
+    time_t TimeStamp;
+    time(&TimeStamp);
+    struct tm timeInfo;
+    localtime_s(&timeInfo, &TimeStamp);
+    char temp[26];
+    asctime_s(temp, sizeof(temp), &timeInfo);
+    temp[strlen(temp) - 1] = '\0'; // tar bort newline
+    
+    //new_measurement.TimeStamp = temp;
+    //detta är för att ge nummeret på vilken värde det är
+    std::string convert = std::to_string((size(MeasurmentList) + 1));
+    std::string dataLabel = convert + "#";
+    std::cout << dataLabel << std::endl;
+    
+    Measurement new_measurement{dataLabel, temp, InputTempreture };
+    //här öppnar jag upp en ny txt.fil som jag lägger in värden i
+    TempretureData.open("DataVals.txt", ios::app);
+    if (TempretureData.is_open())
+    {
+        //här läggs det in i txt.filen
+        TempretureData << new_measurement.TimeStamp << ",";
+        TempretureData << new_measurement.TempretureNumber << ",";
+        TempretureData << new_measurement.TepretureInput << endl;
+        TempretureData.close();
+    }
+    MeasurmentList.push_back(new_measurement);
+}
 
 på rad 181–194
 Case 5 – visualisering av datan (printar "*" för temperaturvärdet).
+denna går igenom vectorn och med en simlpe calculering går en for loop och printar "*" så man ser visuellt skillnaden på temperatur värdena
+{
+	void TempretureVisulisation(const std::vector<Measurement>& MeasurmentList)
+	{
+	    // går genom alla vectorer
+	    for (int i = 0; i < size(MeasurmentList); i++)
+	    {
+	        int temp = round(MeasurmentList[i].TepretureInput);
+	        for (int i = 0; i < round(temp / 2); i++) // for loopen printar "*" så att man kan se visualiserat hur tempraturen går ne och up
+	        {
+	            std::cout << "*";
+	            //andvänder den här för att den inte bara pruntar ut alla "*" på en gång
+	            this_thread::sleep_for(chrono::seconds(1));
+	        }
+	        std::cout << "   " << MeasurmentList[i].TepretureInput << " C" << endl;
+	        std::cout << "\n";
+	    }
+	}
+}
 
 på rad 195–197
 Case 6 – avslutar programmet (sätter run = false).
+gör att run boolen blir false vilket avslutar programet
 
 på rad 198–201
 default – om man skriver ett nummer som inte är en del av menyn, skriver den ut att man ska skriva en ny input.
