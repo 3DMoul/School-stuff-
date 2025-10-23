@@ -147,7 +147,6 @@ Börjar med en system("CLS"); och deklarering av bool för en while loop.
 }
 
 //ENTER(); är en funtion som bara gör att du måste kicka enter för att continue
-main.ENTER();
 
 break;
 void PrintVectorList(const std::list<std::vector<std::string>>& InputList)
