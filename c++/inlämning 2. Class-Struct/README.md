@@ -7,9 +7,11 @@ sen lägger jag in selectad txt file jag använder en while loppe för att gå i
 
 på rad 51-55
 Efter detta så deklarerar jag classen och structen så jag kan använda dem i resten av programet och deklarerar bool run för att börja while loopen.
+
 på rad 67-74
 I main while loopen har jag en "system("CLS");" i början för att cleana up från tidigare inputs samt menyer. efter det så har jag min "main.PrintMenu();" funtion som är bara massa couts som skriver menyn. deklarerar sedan en variabel för meny valet Choise som jag tar igenom en function jag skapa "main.NumberChoice(MenyChoice);" för att hantera ifal att användaren skrev en bokstav istället för en sifra eller fel option gjorde så jag inte behövde skriva om samma kod om och om igen.
 NumberChoice();
+
 static int NumberChoice(std::string StringInput)
 {
     // jag gör alla cout innan denna function till strings som jag kan lägga in här för en dynamisk så jag inte behöver ändra så mycket i koden när jag lägger till den här functionen
@@ -46,7 +48,9 @@ for (int i = 0; i < Times; i++)// så lägge i är mindre en times så kommer lo
 
     double InputVal = 0;
     std::cin >> InputVal;//här kan man manuelt skriva vilket värde man vill ha
-    DataEntries.push_back(DataIn.DataListInput(i, DataEntries, InputVal));// här lägger den till en vector som har alla värden för detta data set vilken tid den skapades vilket "#" den är i listan och värden som                                                                            // du mannuelt skrev in till listan. Man får alla dessa värden genom  "DataIn.DataListInput(i, DataEntries, InputVal)" functionen som jag skapa.
+    DataEntries.push_back(DataIn.DataListInput(i, DataEntries, InputVal));// här lägger den till en vector som har alla värden för detta data set vilken tid den skapades vilket "#" den är i listan och värden
+    //som du mannuelt skrev in till listan. Man får alla dessa värden genom  "DataIn.DataListInput(i, DataEntries, InputVal)" functionen som jag skapa.
+    
 
 }
 
