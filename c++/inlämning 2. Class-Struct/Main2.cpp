@@ -12,8 +12,8 @@ int main()
 {
     std::list<std::vector<std::string>> DataEntries = {};
     VisualFunction main;
-    DataInput DataIn;
-    DataIn.ReadFile(DataEntries);
+    DataInput TempretureInputs;
+    TempretureInputs.ReadFile(DataEntries);
     bool run = true;
     //menyn loop
     while (run == true)
@@ -44,7 +44,7 @@ int main()
                 // Skapa ny t.ex. Meaurement-instans
                 // och lägg till i vector
                 //DataEntries.push_back(Measurement(inputVal, timestamp));
-                DataEntries.push_back(DataIn.TempretureListInput(i, DataEntries, TempretureInput));
+                DataEntries.push_back(TempretureInputs.TempretureListInput(i, DataEntries, TempretureInput));
             }
         }
         break;
@@ -98,7 +98,7 @@ int main()
             if (size(DataEntries) == 1)
             {
                 std::cout << "You have " << size(DataEntries) << " value" << std::endl;
-                double TempretureSum = DataIn.SummOfList(DataEntries);
+                double TempretureSum = TempretureInputs.SummOfList(DataEntries);
                 std::cout << "The only value is " << TempretureSum << " C" << std::endl;
             }
 
@@ -106,7 +106,7 @@ int main()
             {
                 std::cout << "You have " << size(DataEntries) << " values" << std::endl;
                 //function för att summrera all data
-                double TempretureSum = DataIn.SummOfList(DataEntries);
+                double TempretureSum = TempretureInputs.SummOfList(DataEntries);
                 std::cout << "The sum of all the values is " << TempretureSum << " C" << std::endl;
 
                 // medelvärdet är summan av alla delat på hur många values du har
@@ -117,15 +117,15 @@ int main()
                 float MinTempreture, MaxTempreture;
 
                 //här får jag ut värdet för både string och float värdet för minsta tal i listan
-                tie(TimeMin, IdMin, MinTempreture) = DataIn.PrintListMin(DataEntries);
+                tie(TimeMin, IdMin, MinTempreture) = TempretureInputs.PrintListMin(DataEntries);
                 std::cout << "Min: \n" << TimeMin << IdMin << "\n" << MinTempreture << " C" << "\n" << std::endl;
 
                 //-||- för högsta tal i listan
-                tie(TimeMax, IdMax, MaxTempreture) = DataIn.PrintListMax(DataEntries);
+                tie(TimeMax, IdMax, MaxTempreture) = TempretureInputs.PrintListMax(DataEntries);
                 std::cout << "Max: \n" << TimeMax << IdMax << "\n" << MaxTempreture << " C" << "\n" << std::endl;
 
                 //detta får jag värdet för variancen
-                double Varians = DataIn.Variance(DataEntries);
+                double Varians = TempretureInputs.Variance(DataEntries);
                 std::cout << "The sample varians is " << Varians / (size(DataEntries) - 1) << " C" << std::endl;//både normal
                 std::cout << "The population varians is " << Varians / size(DataEntries) << " C" << std::endl;//och population
                 if ((char)toupper(Des) == 'Y')//kollar om jag har eneblat denna funktion
@@ -134,7 +134,7 @@ int main()
                     int TimesOver = 0;
                     int TimesUnder = 0;
                     // får båda values både för över samt under
-                    tie(TimesOver, TimesUnder) = DataIn.ValueLimit(DataEntries, TempretureLimit);
+                    tie(TimesOver, TimesUnder) = TempretureInputs.ValueLimit(DataEntries, TempretureLimit);
                     std::cout << "this is how many times you were over the limit value [" << TimesOver << "]" << std::endl;
                     std::cout << "this is how many times you were under the limit value [" << TimesUnder << "]" << std::endl;
                     //moving avarage
@@ -146,7 +146,7 @@ int main()
                     int EndBoundry = 0;
                     EndBoundry = main.NumberChoice(EBound);
                     //har detta ifall man sätter EndBoundryn innnan BeginBoundryn för då kommer det inte funka
-                    double MovingAvarageSum = DataIn.MovingAvarage(EndBoundry, BeginBoundry, DataEntries);
+                    double MovingAvarageSum = TempretureInputs.MovingAvarage(EndBoundry, BeginBoundry, DataEntries);
                     std::cout << "Moving avarage is : " << MovingAvarageSum << " C" << std::endl;
                 }
             }
@@ -171,7 +171,7 @@ int main()
                 //detta tar fram ett random decimaltal mellan 20-30
                 double f = (double)rand() / RAND_MAX;
                 double RandTempreture = 20 + f * (30 - 20);
-                DataEntries.push_back(DataIn.TempretureListInput(i, DataEntries, RandTempreture));
+                DataEntries.push_back(TempretureInputs.TempretureListInput(i, DataEntries, RandTempreture));
             }
         }
         main.ENTER();
