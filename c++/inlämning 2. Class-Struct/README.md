@@ -1,9 +1,13 @@
 Tempreture Data Input
-på rad 17
+på rad 15
 start med deklarering av listan (DataEntries) som datan ska in i.
 
-på rad 18-48
-sen lägger jag in selectad txt file jag använder en while loppe för att gå igenom och ge mig alla rader som jag lägger in i en vector som jag lägger in i listan. Pågrund av hur jag har laggt in text i filen så måste jag ha ett sätt att lägga in rader på index "0,1,2" sen reseta så jag deklarerar en int times som ökar värde varje runda igenom while loppen detta times värde ger mig min index så att värderna är i rätt index när jag lägger in dem i listan och när times värde är "3" så har jag en if statment som lägger in linen i vectorn är att så lägge (times < 3)så ska den göra det if statment som lägger till vectorn med värden in i listan och sätter times värdet till "0" igen.
+
+på rad 16-17
+Efter detta så deklarerar jag classerna så jag kan använda dem i resten av programet och deklarerar bool run för att börja while loopen.
+på rad 18 
+lässer in specific txt fil  med  function ReadFile();
+
 {
  ifstream TempretureFile;
  //går igenom värdena som var innan och skickar in dem i listan
@@ -46,15 +50,12 @@ sen lägger jag in selectad txt file jag använder en while loppe för att gå i
  }
  TempretureFile.close();
 }
-på rad 51-55
-Efter detta så deklarerar jag classen och structen så jag kan använda dem i resten av programet och deklarerar bool run för att börja while loopen.
-
-på rad 67-74
+på rad 21-30
 I main while loopen har jag en "system("CLS");" i början för att cleana up från tidigare inputs samt menyer. efter det så har jag min "main.PrintMenu();" funtion som är bara massa couts som skriver menyn. deklarerar sedan en variabel för meny valet Choise som jag tar igenom en function jag skapa "main.NumberChoice(MenyChoice);" för att hantera ifal att användaren skrev en bokstav istället för en sifra eller fel option gjorde så jag inte behövde skriva om samma kod om och om igen.
 NumberChoice();
 {
-static int NumberChoice(std::string StringInput)
-{
+ static int NumberChoice(std::string StringInput)
+ {
     // jag gör alla cout innan denna function till strings som jag kan lägga in här för en dynamisk så jag inte behöver ändra så mycket i koden när jag lägger till den här functionen
     std::cout << StringInput << std::endl;
 
@@ -74,15 +75,15 @@ static int NumberChoice(std::string StringInput)
 
     // om man skrev allt correct å ger 
     return Choice;
+ }
 }
-}
-på rad 76-342
+på rad 31-32
 är en switch med 6 cases och en default om man skriver ett nummer som inte är en av valen.
 
 
 
 
-på rad 78-98 
+på rad 33-52 
 är case 1 som är valet för att lägga in value manuelt
 innehåller "system("CLS");" som jag har för samma anledning som jag skrev tidigare. har även "main.NumberChoice();" för hur många värden man vill lägga in som jag lägger in i en int times variabel som jag deklarerar på samma rad som bästemer för for loopen när den ska sluta
 {
@@ -138,7 +139,7 @@ void TempretureListInput(int i, std::vector<Measurement>& MeasurmentList, double
     MeasurmentList.push_back(new_measurement);
 }
 }
-på rad 101-154
+på rad 53-84
 är case 2 som är utskrivning av värderna
 Börjar med en system("CLS"); och deklarering av bool för en while loop.
  {
@@ -217,6 +218,80 @@ void ENTER()
     std::cin.ignore(InputBufferLimit, '\n');
 }
 }
+på rad 85-162
+case 3 är för statistiken av all temperatur data 
+börjar med att fråga om man vill lägga till avancerad data som movingavarage och gränsvärden du skriver antingen Y eller N. 
+annars så går den igenom och tittar hur många värden man har om man har vectorn har mindre en 1 värde så kommer den säga att man inte har några värden och ta tillbacka en till menyn, om man har ett värde så säger den att du har ett värde och säger vad det värdet är och om du har mer en ett värde så går den igenom allt.
+som summan av alla som den går igenom i SummOfVector(); functionen
+{
+static double SummOfVector(const std::vector<Measurement>& MeasurmentList)
+{
+    double SumVal = 0;
+    for (int i = 0; i < size(MeasurmentList); i++)// går igenom hela vectorn
+    {
+        
+        SumVal = SumVal + MeasurmentList[i].TepretureInput;//plussar ihop alla TepretureInput värden in i variablen SumVal
+    }
+    return SumVal;
+}
+}
+värdet jag får från SummOfVector(); delar jag med size(DataEntries); för att få ut avarage.
+
+sen deklarerar jag strings för min och max värdet och doublen för min och max värdet efter det går vectorn igenom och kollar på min och max värdet med PrintListMax(); och PrintListMin();
+{
+static std::tuple<std::string, std::string, double>  PrintListMax(const std::vector<Measurement>& MeasurmentList)
+{
+    //minimum valuen så att koden har en refrence att comparea mot
+    double MaxVal = std::numeric_limits<double>::min();
+    //detta frå fram max value
+    std::string TimeMax;
+    std::string IdMax;
+    for (int i = 0; i < size(MeasurmentList); i++)//checkar genom listan alla vectorer
+    {
+        double Temp = MeasurmentList[i].TepretureInput;
+        //gör [1] för att det är på den indexen som data valuen är på
+        if (Temp > MaxVal)
+        {
+            TimeMax = MeasurmentList[i].TimeStamp;
+            IdMax = MeasurmentList[i].TempretureNumber;
+            MaxVal = Temp;
+        }
+    }
+    return std::make_tuple(TimeMax, IdMax, MaxVal);
+}
+}
+{
+static std::tuple<std::string, std::string, double> PrintListMin(const std::vector<Measurement>& MeasurmentList)
+{
+    //denna variabel tar fram max value för att comparea cilken som är minst
+    double MinVal = std::numeric_limits<double>::max();
+    // detta får fram minsta value
+    std::string TimeMin;
+    std::string IdMin;
+    for (int i = 0; i < size(MeasurmentList); i++)
+    {
+        double temp = MeasurmentList[i].TepretureInput;
+        if (temp < MinVal)
+        {
+            TimeMin = MeasurmentList[i].TimeStamp;
+            IdMin = MeasurmentList[i].TempretureNumber;
+            MinVal = temp;
+        }
+    }
+    return std::make_tuple(TimeMin, IdMin, MinVal);
+}
+}
+
+på rad 163-180
+case 4 är för att simulera random temperatur värden
+på rad 181-194
+case 5 är visualisering av datan den printar "*" för temperatur värdet
+på rad 195-197
+case 6 den här gör att run boolen för meny loopen för att sluta programet
+på rad 198-201
+default ifal man skriver något nummer som inte är del av menyn så skriver den bara ut att man ska skriva en ny input
+
+
 
 
 
