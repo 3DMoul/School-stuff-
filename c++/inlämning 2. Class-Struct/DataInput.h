@@ -11,11 +11,13 @@
 #include <chrono>
 #include <tuple>
 #include <fstream>
-using namespace std;
+#include "Measurement.h"
+using namespace std; 
+
 class DataInput
 {
 public:
-    void ReadFile(std::list<std::vector<std::string>>& InputList)
+    void ReadFile(std::vector<Measurement>& MeasurmentList)
     {
         ifstream TempretureFile;
         //går igenom värdena som var innan och skickar in dem i listan
@@ -23,106 +25,82 @@ public:
         if (TempretureFile.is_open())
         {
             int times = 0;
-            std::vector<std::string> Values(3);
+            std::vector<Measurement> Values(3);
             string line;
             //här går den igenom alla lines av txt filen samt lägger dem in i vector som sätts in i listan
             while (getline(TempretureFile, line))
             {
-                if (times < 3)
+                char str[256];
+                strcpy_s(str, line.c_str());
+                const char* del = ",";
+                Measurement new_measurement;
+                char* next_token = nullptr;
+                char* FileSegment = strtok_s(str, del, &next_token);
+                int FileIteration = 0;
+                while (FileSegment != nullptr) 
                 {
-                    Values[times] = line;
-                    times++;
+                    if (FileIteration == 0)
+                    {
+                        new_measurement.TimeStamp = FileSegment;
+                    }
+                    else if (FileIteration == 1)
+                    {
+                        new_measurement.TempretureNumber = FileSegment;
+                    }
+                    else if (FileIteration == 2)
+                    {
+                        new_measurement.TepretureInput = stod(FileSegment);
+                    }
+                    
+                    FileSegment = strtok_s(nullptr, del, &next_token);
+                    FileIteration++;
                 }
-                if (times == 3)
-                {
-                    times = 0;
-                    InputList.push_back(Values);
-                }
+                MeasurmentList.push_back(new_measurement);
             }
         }
         TempretureFile.close();
     }
-    static std::vector<std::string> TempretureListInput(int i, std::list<std::vector<std::string>>& InputList, double InputValue)
+    void TempretureListInput(int i, std::vector<Measurement>& MeasurmentList, double InputTempreture)
     {
         ofstream TempretureData;
-        //vector för värdet med storlek (3) så jag kan ha tid när den skapades nummer# vilken årdning den skapades och till sist valuen av datan
-        std::vector<std::string> Values(3);
+        
         std::cout << "[" << i + 1 << "]" << "Value: ";
         //här är för att lägga till tiden
         time_t TimeStamp;
         time(&TimeStamp);
-        char *temp;
-        temp = asctime(localtime(&TimeStamp));
-        temp[strlen(temp) - 1] = '\0';// detta gör att man inte får den newline av time_t
-        Values[0] = temp;
-
+        struct tm timeInfo;
+        localtime_s(&timeInfo, &TimeStamp);
+        char temp[26];
+        asctime_s(temp, sizeof(temp), &timeInfo);
+        temp[strlen(temp) - 1] = '\0'; // tar bort newline
+        
+        //new_measurement.TimeStamp = temp;
         //detta är för att ge nummeret på vilken värde det är
-        std::string convert = std::to_string((size(InputList) + 1));
+        std::string convert = std::to_string((size(MeasurmentList) + 1));
         std::string dataLabel = convert + "#";
         std::cout << dataLabel << std::endl;
-        Values[1] = dataLabel;
-
-        std::string TempString = std::to_string(InputValue);
-        Values[2] = TempString;
+        
+        Measurement new_measurement{dataLabel, temp, InputTempreture };
         //här öppnar jag upp en ny txt.fil som jag lägger in värden i
         TempretureData.open("DataVals.txt", ios::app);
         if (TempretureData.is_open())
         {
             //här läggs det in i txt.filen
-            TempretureData << Values[0] << endl;
-            TempretureData << Values[1] << endl;
-            TempretureData << Values[2] << endl;
+            TempretureData << new_measurement.TimeStamp << ",";
+            TempretureData << new_measurement.TempretureNumber << ",";
+            TempretureData << new_measurement.TepretureInput << endl;
             TempretureData.close();
         }
-        return Values;
+        MeasurmentList.push_back(new_measurement);
     }
-    static std::tuple<std::string, std::string, double>  PrintListMax(const std::list<std::vector<std::string>>& InputList)
-    {
-        //minimum valuen så att koden har en refrence att comparea mot
-        double MaxVal = std::numeric_limits<double>::min();
-        //detta frå fram max value
-        std::string TimeMax;
-        std::string IdMax;
-        for (const auto& VecVal : InputList)//checkar genom listan alla vectorer
-        {
-            double Temp = stod(VecVal[2]);
-            //gör [1] för att det är på den indexen som data valuen är på
-            if (Temp > MaxVal)
-            {
-                TimeMax = VecVal[0];
-                IdMax = VecVal[1];
-                MaxVal = Temp;
-            }
-        }
-        return std::make_tuple(TimeMax, IdMax, MaxVal);
-    }
-    static std::tuple<std::string, std::string, double> PrintListMin(const std::list<std::vector<std::string>>& InputList)
-    {
-        //denna variabel tar fram max value för att comparea cilken som är minst
-        double MinVal = std::numeric_limits<double>::max();
-        // detta får fram minsta value
-        std::string TimeMin;
-        std::string IdMin;
-        for (const auto& VecVal : InputList)
-        {
-            double temp = stod(VecVal[2]);
-            if (temp < MinVal)
-            {
-                TimeMin = VecVal[0];
-                IdMin = VecVal[1];
-                MinVal = temp;
-            }
-        }
-        return std::make_tuple(TimeMin, IdMin, MinVal);
-    }
-    static std::tuple<int, int> ValueLimit(const std::list<std::vector<std::string>>& InputList, double LV)
+    static std::tuple<int, int> ValueLimit(const std::vector<Measurement>& MeasurmentList, double LV)
     {
         int TimesOver = 0;
         int TimesUnder = 0;
         // denna for loop checkar alla gånger datan är under eller över gränsvärdet man la till
-        for (const auto& vec : InputList)
+        for (int i = 0; i < size(MeasurmentList); i++)
         {
-            double temp = stod(vec[2]);
+            double temp = MeasurmentList[i].TepretureInput;
             if (temp < LV)
             {
                 TimesUnder++;
@@ -134,26 +112,25 @@ public:
         }
         return std::make_tuple(TimesOver, TimesUnder);
     }
-    static double SummOfList(const std::list<std::vector<std::string>>& InputList)
+    static double SummOfVector(const std::vector<Measurement>& MeasurmentList)
     {
         double SumVal = 0;
-        for (const auto& VecVal : InputList)
+        for (int i = 0; i < size(MeasurmentList); i++)
         {
-            double temp = stod(VecVal[2]);
-            SumVal = SumVal + temp;
+            SumVal = SumVal + MeasurmentList[i].TepretureInput;
         }
         return SumVal;
     }
-    static double Variance(const std::list<std::vector<std::string>>& InputList)
+    static double Variance(const std::vector<Measurement>& MeasurmentList)
     {
         //vector för att hålla värderna för varians
         std::vector<double> StandardDeviation = {};
-        double StandAvg = SummOfList(InputList);
-        StandAvg = StandAvg / size(InputList);
+        double StandAvg = SummOfVector(MeasurmentList);
+        StandAvg = StandAvg / size(MeasurmentList);
         //detta subtraherar alla värderna med medelvärdet
-        for (const auto& VecVal : InputList)
+        for (int i = 0; i < size(MeasurmentList); i++)
         {
-            double Temp = stod(VecVal[2]);
+            double Temp = MeasurmentList[i].TepretureInput;
             double TempVar = Temp - StandAvg;
             StandardDeviation.push_back(TempVar);
         }
@@ -172,7 +149,7 @@ public:
         }
         return Squere;
     }
-    static double MovingAvarage(double EndBoundry, double BeginBoundry, std::list<std::vector<std::string>>& InputList)
+    static double MovingAvarage(double EndBoundry, double BeginBoundry, std::vector<Measurement>& MeasurmentList)
     {
         double MovingAvarageTemporary = 0;
         double MovingAvgSizeTemporary = 0;
@@ -186,12 +163,12 @@ public:
             std::cin >> EndBoundry;
         }
         // detta går igenom från där du ville starta till där du villa sluta
-        for (const auto& vec : InputList)
+        for (int i = 0; i < size(MeasurmentList); i++)
         {
-            int temp = stod(vec[1]);
+            int temp = MeasurmentList[i].TempretureNumber[0];
             if (temp >= BeginBoundry)
             {
-                MovingAvarageTemporary += stod(vec[2]);
+                MovingAvarageTemporary += MeasurmentList[i].TepretureInput;
                 MovingAvgSizeTemporary++;
             }
             else if (temp == EndBoundry)
@@ -200,6 +177,29 @@ public:
             }
         }
         return MovingAvarageTemporary / MovingAvgSizeTemporary;
+    }
+    void ENTER()
+    {
+        std::cout << "Klick \"ENTER\" too continue" << std::endl;
+        std::string str;
+        std::getline(std::cin, str);
+        std::streamsize InputBufferLimit = 10000;
+        std::cin.ignore(InputBufferLimit, '\n');
+    }
+    static int NumberChoice(std::string StringInput)
+    {
+        std::cout << StringInput << std::endl;
+        int Choice;
+        //failsafe loop för val
+        while (!(std::cin >> Choice))
+        {
+            std::cout << "Error you have inputed a invalid value please input a number:  " << std::endl;
+            std::cin.clear();
+            std::streamsize InputBufferLimit = 10000;
+            std::cin.ignore(InputBufferLimit, '\n');
+            std::cout << StringInput << std::endl;
+        }
+        return Choice;
     }
 };
 #endif
