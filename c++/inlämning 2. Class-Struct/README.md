@@ -4,6 +4,7 @@ start med deklarering av listan (DataEntries) som datan ska in i.
 
 på rad 18-48
 sen lägger jag in selectad txt file jag använder en while loppe för att gå igenom och ge mig alla rader som jag lägger in i en vector som jag lägger in i listan. Pågrund av hur jag har laggt in text i filen så måste jag ha ett sätt att lägga in rader på index "0,1,2" sen reseta så jag deklarerar en int times som ökar värde varje runda igenom while loppen detta times värde ger mig min index så att värderna är i rätt index när jag lägger in dem i listan och när times värde är "3" så har jag en if statment som lägger in linen i vectorn är att så lägge (times < 3)så ska den göra det if statment som lägger till vectorn med värden in i listan och sätter times värdet till "0" igen.
+{
  ifstream TempretureFile;
  //går igenom värdena som var innan och skickar in dem i listan
  TempretureFile.open("DataVals.txt", ios::in);
@@ -44,14 +45,14 @@ sen lägger jag in selectad txt file jag använder en while loppe för att gå i
      }
  }
  TempretureFile.close();
-
+}
 på rad 51-55
 Efter detta så deklarerar jag classen och structen så jag kan använda dem i resten av programet och deklarerar bool run för att börja while loopen.
 
 på rad 67-74
 I main while loopen har jag en "system("CLS");" i början för att cleana up från tidigare inputs samt menyer. efter det så har jag min "main.PrintMenu();" funtion som är bara massa couts som skriver menyn. deklarerar sedan en variabel för meny valet Choise som jag tar igenom en function jag skapa "main.NumberChoice(MenyChoice);" för att hantera ifal att användaren skrev en bokstav istället för en sifra eller fel option gjorde så jag inte behövde skriva om samma kod om och om igen.
 NumberChoice();
-
+{
 static int NumberChoice(std::string StringInput)
 {
     // jag gör alla cout innan denna function till strings som jag kan lägga in här för en dynamisk så jag inte behöver ändra så mycket i koden när jag lägger till den här functionen
@@ -74,6 +75,7 @@ static int NumberChoice(std::string StringInput)
     // om man skrev allt correct å ger 
     return Choice;
 }
+}
 på rad 76-342
 är en switch med 6 cases och en default om man skriver ett nummer som inte är en av valen.
 
@@ -83,8 +85,9 @@ på rad 76-342
 på rad 78-98 
 är case 1 som är valet för att lägga in value manuelt
 innehåller "system("CLS");" som jag har för samma anledning som jag skrev tidigare. har även "main.NumberChoice();" för hur många värden man vill lägga in som jag lägger in i en int times variabel som jag deklarerar på samma rad som bästemer för for loopen när den ska sluta
-
+{
  system("CLS");
+ 
  std::string TepretureInputs = "How many values do you want to add";
  //här inisierar jag hur många värden jag vill ha
  int NumberOfInputs = DataInput.NumberChoice(TepretureInputs);
@@ -99,7 +102,8 @@ innehåller "system("CLS");" som jag har för samma anledning som jag skrev tidi
      //DataEntries.push_back(Measurement(inputVal, timestamp));
      DataInput.TempretureListInput(i, DataEntries, TempretureInput);
  }
-
+}
+{
 void TempretureListInput(int i, std::vector<Measurement>& MeasurmentList, double InputTempreture)
 {
     ofstream TempretureData;
@@ -133,10 +137,11 @@ void TempretureListInput(int i, std::vector<Measurement>& MeasurmentList, double
     }
     MeasurmentList.push_back(new_measurement);
 }
-
+}
 på rad 101-154
 är case 2 som är utskrivning av värderna
 Börjar med en system("CLS"); och deklarering av bool för en while loop.
+ {
     while (Print == true)
     {
 
@@ -183,6 +188,8 @@ Börjar med en system("CLS"); och deklarering av bool för en while loop.
 //ENTER(); är en funtion som bara gör att du måste kicka enter för att continue
 
 break;
+}
+{
 void PrintMeasurementList(const std::vector<Measurement>& MeasurmentList)
 {
     for (int i = 0; i < size(MeasurmentList); i++)
@@ -194,6 +201,8 @@ void PrintMeasurementList(const std::vector<Measurement>& MeasurmentList)
         std::cout << "\n--------------------" << std::endl;
     }
 }
+}
+{
 void ENTER()
 {
 
@@ -207,7 +216,7 @@ void ENTER()
 
     std::cin.ignore(InputBufferLimit, '\n');
 }
-
+}
 
 
 
