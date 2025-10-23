@@ -145,32 +145,21 @@ Börjar med en system("CLS"); och deklarering av bool för en while loop.
     }
 
 }
+
 //ENTER(); är en funtion som bara gör att du måste kicka enter för att continue
 main.ENTER();
 
 break;
 void PrintVectorList(const std::list<std::vector<std::string>>& InputList)
 {
-
     for (const auto& vec : InputList)
     {
-
-
         std::cout << "--------------------\n" << std::endl;
-
-
         std::cout << vec[0] << "\n" << std::endl;
-
         std::cout << vec[1] << std::endl;
-
         std::cout << vec[2] << " C" << std::endl;
-
-
         std::cout << "\n--------------------" << std::endl;
-
-
     }
-
 }
 void ENTER()
 {
