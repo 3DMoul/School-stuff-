@@ -1,3 +1,4 @@
+#include "Measurement.h"
 #include "DataInput.h" 
 #include "Visualization.h"
 #include <iostream>
@@ -8,12 +9,13 @@
 #include <fstream>
 #include <sstream>
 using namespace std;
+
 int main()
 {
-    std::list<std::vector<std::string>> DataEntries = {};
+    std::vector<Measurement> DataEntries = {};
     VisualFunction main;
-    DataInput TempretureInputs;
-    TempretureInputs.ReadFile(DataEntries);
+    DataInput DataInput;
+    DataInput.ReadFile(DataEntries);
     bool run = true;
     //menyn loop
     while (run == true)
@@ -25,7 +27,7 @@ int main()
         main.PrintMenu();
         std::string MenuChoice = "Choice 1-6: ";
         //menyval NumberChoice(); funktionen är en fail safe ifal man skiver en bokstav istället för ett nummer
-        int Choice = main.NumberChoice(MenuChoice);
+        int Choice = DataInput.NumberChoice(MenuChoice);
         switch (Choice)
         {
         case 1:
@@ -34,7 +36,7 @@ int main()
 
             std::string TepretureInputs = "How many values do you want to add";
             //här inisierar jag hur många värden jag vill ha
-            int NumberOfInputs = main.NumberChoice(TepretureInputs);
+            int NumberOfInputs = DataInput.NumberChoice(TepretureInputs);
             for (int i = 0; i < NumberOfInputs; i++)
             {
                 // Vill ta in en termperatur: InputVal
@@ -44,7 +46,7 @@ int main()
                 // Skapa ny t.ex. Meaurement-instans
                 // och lägg till i vector
                 //DataEntries.push_back(Measurement(inputVal, timestamp));
-                DataEntries.push_back(TempretureInputs.TempretureListInput(i, DataEntries, TempretureInput));
+                DataInput.TempretureListInput(i, DataEntries, TempretureInput);
             }
         }
         break;
@@ -63,7 +65,7 @@ int main()
                 if ((char)toupper(Des) == 'Y')
                 {
                     //detta går igenom alla vectorer och skriver ut dem
-                    main.PrintVectorList(DataEntries);
+                    main.PrintMeasurementList(DataEntries);
                     Print = false;
                 }
 
@@ -78,7 +80,7 @@ int main()
                 break;
             }
         }
-        main.ENTER();
+        DataInput.ENTER();
         break;
         case 3:
         {
@@ -92,13 +94,13 @@ int main()
             if ((char)toupper(Des) == 'Y')
             {
                 std::string TempretureLimitString = "What is the Limit value: ";
-                TempretureLimit = main.NumberChoice(TempretureLimitString);
+                TempretureLimit = DataInput.NumberChoice(TempretureLimitString);
             }
             //if else beroende på om du har en value eller flera values
             if (size(DataEntries) == 1)
             {
                 std::cout << "You have " << size(DataEntries) << " value" << std::endl;
-                double TempretureSum = TempretureInputs.SummOfList(DataEntries);
+                double TempretureSum = DataInput.SummOfVector(DataEntries);
                 std::cout << "The only value is " << TempretureSum << " C" << std::endl;
             }
 
@@ -106,7 +108,7 @@ int main()
             {
                 std::cout << "You have " << size(DataEntries) << " values" << std::endl;
                 //function för att summrera all data
-                double TempretureSum = TempretureInputs.SummOfList(DataEntries);
+                double TempretureSum = DataInput.SummOfVector(DataEntries);
                 std::cout << "The sum of all the values is " << TempretureSum << " C" << std::endl;
 
                 // medelvärdet är summan av alla delat på hur många values du har
@@ -117,15 +119,15 @@ int main()
                 float MinTempreture, MaxTempreture;
 
                 //här får jag ut värdet för både string och float värdet för minsta tal i listan
-                tie(TimeMin, IdMin, MinTempreture) = TempretureInputs.PrintListMin(DataEntries);
+                tie(TimeMin, IdMin, MinTempreture) = main.PrintListMin(DataEntries);
                 std::cout << "Min: \n" << TimeMin << IdMin << "\n" << MinTempreture << " C" << "\n" << std::endl;
 
                 //-||- för högsta tal i listan
-                tie(TimeMax, IdMax, MaxTempreture) = TempretureInputs.PrintListMax(DataEntries);
+                tie(TimeMax, IdMax, MaxTempreture) = main.PrintListMax(DataEntries);
                 std::cout << "Max: \n" << TimeMax << IdMax << "\n" << MaxTempreture << " C" << "\n" << std::endl;
 
                 //detta får jag värdet för variancen
-                double Varians = TempretureInputs.Variance(DataEntries);
+                double Varians = DataInput.Variance(DataEntries);
                 std::cout << "The sample varians is " << Varians / (size(DataEntries) - 1) << " C" << std::endl;//både normal
                 std::cout << "The population varians is " << Varians / size(DataEntries) << " C" << std::endl;//och population
                 if ((char)toupper(Des) == 'Y')//kollar om jag har eneblat denna funktion
@@ -134,19 +136,19 @@ int main()
                     int TimesOver = 0;
                     int TimesUnder = 0;
                     // får båda values både för över samt under
-                    tie(TimesOver, TimesUnder) = TempretureInputs.ValueLimit(DataEntries, TempretureLimit);
+                    tie(TimesOver, TimesUnder) = DataInput.ValueLimit(DataEntries, TempretureLimit);
                     std::cout << "this is how many times you were over the limit value [" << TimesOver << "]" << std::endl;
                     std::cout << "this is how many times you were under the limit value [" << TimesUnder << "]" << std::endl;
+                    
                     //moving avarage
                     std::string BBound = "\nBeginBoundry: ";
                     int BeginBoundry = 0;
-                    BeginBoundry = main.NumberChoice(BBound);
-
+                    BeginBoundry = DataInput.NumberChoice(BBound);
                     std::string EBound = "\nEndBoundry: ";
                     int EndBoundry = 0;
-                    EndBoundry = main.NumberChoice(EBound);
+                    EndBoundry = DataInput.NumberChoice(EBound);
                     //har detta ifall man sätter EndBoundryn innnan BeginBoundryn för då kommer det inte funka
-                    double MovingAvarageSum = TempretureInputs.MovingAvarage(EndBoundry, BeginBoundry, DataEntries);
+                    double MovingAvarageSum = DataInput.MovingAvarage(EndBoundry, BeginBoundry, DataEntries);
                     std::cout << "Moving avarage is : " << MovingAvarageSum << " C" << std::endl;
                 }
             }
@@ -156,7 +158,7 @@ int main()
                 std::cout << "You currently dont have any data values to look at" << std::endl;
             }
         }
-        main.ENTER();
+        DataInput.ENTER();
         break;
         case 4:
         {
@@ -165,16 +167,16 @@ int main()
 
             std::string TempretureSimulations = "How many values do you want to simulate";
             //här inisierar jag hur många värden jag vill ha
-            int TimesSimulated = main.NumberChoice(TempretureSimulations);
+            int TimesSimulated = DataInput.NumberChoice(TempretureSimulations);
             for (int i = 0; i < TimesSimulated; i++)
             {
                 //detta tar fram ett random decimaltal mellan 20-30
                 double f = (double)rand() / RAND_MAX;
                 double RandTempreture = 20 + f * (30 - 20);
-                DataEntries.push_back(TempretureInputs.TempretureListInput(i, DataEntries, RandTempreture));
+                DataInput.TempretureListInput(i, DataEntries, RandTempreture);
             }
         }
-        main.ENTER();
+        DataInput.ENTER();
         break;
         case 5:
         {
@@ -188,7 +190,7 @@ int main()
                 main.TempretureVisulisation(DataEntries);
             }
         }
-        main.ENTER();
+        DataInput.ENTER();
         break;
         case 6: //stänger av loopen
             run = false;
@@ -199,7 +201,7 @@ int main()
         }
         break;
         }
-    } 
-    main.ENTER();
+    }
+    DataInput.ENTER();
     return 0;
 }
