@@ -223,6 +223,7 @@ case 3 är för statistiken av all temperatur data
 börjar med att fråga om man vill lägga till avancerad data som movingavarage och gränsvärden du skriver antingen Y eller N. 
 annars så går den igenom och tittar hur många värden man har om man har vectorn har mindre en 1 värde så kommer den säga att man inte har några värden och ta tillbacka en till menyn, om man har ett värde så säger den att du har ett värde och säger vad det värdet är och om du har mer en ett värde så går den igenom allt.
 som summan av alla som den går igenom i SummOfVector(); functionen
+
 {
 static double SummOfVector(const std::vector<Measurement>& MeasurmentList)
 {
@@ -235,9 +236,11 @@ static double SummOfVector(const std::vector<Measurement>& MeasurmentList)
     return SumVal;
 }
 }
+
 värdet jag får från SummOfVector(); delar jag med size(DataEntries); för att få ut avarage.
 
 sen deklarerar jag strings för min och max värdet och doublen för min och max värdet efter det går vectorn igenom och kollar på min och max värdet med PrintListMax(); och PrintListMin();
+
 {
 static std::tuple<std::string, std::string, double>  PrintListMax(const std::vector<Measurement>& MeasurmentList)
 {
@@ -260,6 +263,7 @@ static std::tuple<std::string, std::string, double>  PrintListMax(const std::vec
     return std::make_tuple(TimeMax, IdMax, MaxVal);
 }
 }
+
 {
 static std::tuple<std::string, std::string, double> PrintListMin(const std::vector<Measurement>& MeasurmentList)
 {
