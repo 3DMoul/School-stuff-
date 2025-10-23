@@ -86,7 +86,7 @@ public:
 
             }
 
-            std::cout << "   " << vec[2] << endl;
+            std::cout << "   " << vec[2] << " C" << endl;
             std::cout << "\n";
 
         }
@@ -102,11 +102,11 @@ public:
             std::cout << "--------------------\n" << std::endl;
 
 
-            std::cout << vec[0] << "\n" << std::endl;
+            std::cout << vec[0] << " C" << "\n" << std::endl;
 
-            std::cout << vec[1] << std::endl;
+            std::cout << vec[1] << " C" << std::endl;
 
-            std::cout << vec[2] << std::endl;
+            std::cout << vec[2] << " C" << std::endl;
 
 
             std::cout << "\n--------------------" << std::endl;
