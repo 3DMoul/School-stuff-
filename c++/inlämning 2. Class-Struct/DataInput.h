@@ -17,7 +17,7 @@ using namespace std;
 class DataInput
 {
 public:
-    void WriteFile(std::string TimeStamp, std::string TemperatureNumber, double Temperature)
+    void WriteFile(std::string TimeStamp, std::string TempretureNumber, double Temperature)
     {
         ofstream TempretureData;
         //här öppnar jag upp en ny txt.fil som jag lägger in värden i
@@ -26,7 +26,7 @@ public:
         {
             //här läggs det in i txt.filen
             TempretureData << TimeStamp << ",";
-            TempretureData << TemperatureNumber << ",";
+            TempretureData << TempretureNumber << ",";
             TempretureData << Temperature << endl;
             TempretureData.close();
         }
