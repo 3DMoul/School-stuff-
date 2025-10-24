@@ -88,52 +88,69 @@ NumberChoice();
 {
     static int NumberChoice(std::string StringInput)
     {
-        // jag gör alla cout innan denna function till strings som jag kan lägga in här för en dynamisk
+        
+		// jag gör alla cout innan denna function till strings som jag kan lägga in här för en dynamisk
         std::cout << StringInput << std::endl;
 
         int Choice;
 
         // failsafe loop för val
-        while (!(std::cin >> Choice))
-        {
-            std::cout << "Error you have inputed a invalid value please input a number:  " << std::endl;
+       
+		while (!(std::cin >> Choice))
+       
+		{
+           
+			std::cout << "Error you have inputed a invalid value please input a number:  " << std::endl;
             std::cin.clear(); // detta clearar vad du skrev om du skrev en fel input
             std::streamsize InputBufferLimit = 10000;
             std::cin.ignore(InputBufferLimit, '\n');
             std::cout << StringInput << std::endl; // frågar igen samma fråga
-        }
+       
+		}
 
         // om man skrev allt korrekt
         return Choice;
-    }
+    
+	}
+
 }
 
 
 på rad 31–32
+
 Är en switch med 6 cases och en default om man skriver ett nummer som inte är en av valen.
 
 på rad 33–52
+
 Case 1 – valet för att lägga in value manuellt.
 
 {
-    system("CLS");
+    
+	system("CLS");
  
     std::string TepretureInputs = "How many values do you want to add";
     int NumberOfInputs = DataInput.NumberChoice(TepretureInputs);
 
     for (int i = 0; i < NumberOfInputs; i++)
-    {
-        double TempretureInput = 0;
+    
+	{
+        
+		double TempretureInput = 0;
         std::cin >> TempretureInput;
 
         DataInput.TempretureListInput(i, DataEntries, TempretureInput);
-    }
+    
+	}
+
 }
 
 {
-    void TempretureListInput(int i, std::vector<Measurement>& MeasurmentList, double InputTempreture)
-    {
-        std::cout << "[" << i + 1 << "]" << "Value: ";
+    
+	void TempretureListInput(int i, std::vector<Measurement>& MeasurmentList, double InputTempreture)
+    
+	{
+      
+		std::cout << "[" << i + 1 << "]" << "Value: ";
 
         // lägger till tiden
         time_t TimeStamp;
@@ -152,7 +169,9 @@ Case 1 – valet för att lägga in value manuellt.
 		//lägger in temperatur datan in i en text fil
         WriteFile(new_measurement.TimeStamp, new_measurement.TempretureNumber, new_measurement.TepretureInput);
         MeasurmentList.push_back(new_measurement);
-    }
+    
+	}
+
 }
 
 
@@ -160,54 +179,84 @@ på rad 53–84
 Case 2 – utskrivning av värdena.
 
 {
-    while (Print == true)
-    {
-        std::cout << "You have [" << size(DataEntries) << "]" << std::endl;
+    
+	while (Print == true)
+    
+	{
+       
+		std::cout << "You have [" << size(DataEntries) << "]" << std::endl;
         std::cout << "Do you want to list them [Y/N] : " << std::endl;
         char Des;
         std::cin >> Des;
 
         if ((char)toupper(Des) == 'Y')
-        {
-            main.PrintVectorList(DataEntries);
+       
+		{
+         
+			main.PrintVectorList(DataEntries);
             Print = false;
-        }
-        else if ((char)toupper(Des) == 'N')
-        {
-            Print = false;
-        }
-        else
-        {
-            std::cout << "Wrong input" << std::endl;
-        }
-        break;
-    }
+       
+		}
+       
+		else if ((char)toupper(Des) == 'N')
+       
+		{
+         
+			Print = false;
+        
+		}
+        
+		else
+        
+		{
+        
+			std::cout << "Wrong input" << std::endl;
+        
+		}
+        
+		break;
+    
+	}
+
 }
 
 {
-    void PrintMeasurementList(const std::vector<Measurement>& MeasurmentList)
-    {
-        for (int i = 0; i < size(MeasurmentList); i++)
-        {
-            std::cout << "--------------------\n" << std::endl;
+
+	void PrintMeasurementList(const std::vector<Measurement>& MeasurmentList)
+    
+	{
+    
+		for (int i = 0; i < size(MeasurmentList); i++)
+        
+		{
+        
+			std::cout << "--------------------\n" << std::endl;
             std::cout << MeasurmentList[i].TimeStamp << "\n" << std::endl;
             std::cout << MeasurmentList[i].TempretureNumber << std::endl;
             std::cout << MeasurmentList[i].TepretureInput << " C" << std::endl;
             std::cout << "\n--------------------" << std::endl;
-        }
-    }
+        
+		}
+    
+	}
+
 }
 
 {
-    void ENTER()
-    {
-        std::cout << "Klick \"ENTER\" too continue" << std::endl;
+
+	void ENTER()
+    
+	{
+    
+		std::cout << "Klick \"ENTER\" too continue" << std::endl;
         std::string str;
         std::getline(std::cin, str);
 
         std::streamsize InputBufferLimit = 10000;
         std::cin.ignore(InputBufferLimit, '\n');
-    }
+    
+	}
+
 }
 
 
@@ -215,144 +264,240 @@ på rad 85–162
 Case 3 – statistik av all temperaturdata.
 
 {
-    static double SummOfVector(const std::vector<Measurement>& MeasurmentList)
-    {
-        double SumVal = 0;
+
+	static double SummOfVector(const std::vector<Measurement>& MeasurmentList)
+    
+	{
+    
+		double SumVal = 0;
         for (int i = 0; i < size(MeasurmentList); i++)
-        {
-            SumVal = SumVal + MeasurmentList[i].TepretureInput;//plussar ihop all TepretureInput in i SumVal
-        }
-        return SumVal;
-    }
+        
+		{
+        
+			SumVal = SumVal + MeasurmentList[i].TepretureInput;//plussar ihop all TepretureInput in i SumVal
+        
+		}
+        
+		return SumVal;
+    
+	}
+
 }
+
 PrintListMax(); PrintListMin(); hittar max och min values av vectoren
+
 {
-    static std::tuple<std::string, std::string, double> PrintListMax(const std::vector<Measurement>& MeasurmentList)
-    {
-        double MaxVal = std::numeric_limits<double>::min();
+
+	static std::tuple<std::string, std::string, double> PrintListMax(const std::vector<Measurement>& MeasurmentList)
+    
+	{
+    
+		double MaxVal = std::numeric_limits<double>::min();
         std::string TimeMax;
         std::string IdMax;
 
         for (int i = 0; i < size(MeasurmentList); i++)
-        {
-            double Temp = MeasurmentList[i].TepretureInput;
+        
+		{
+        
+			double Temp = MeasurmentList[i].TepretureInput;
             if (Temp > MaxVal)
-            {
-                TimeMax = MeasurmentList[i].TimeStamp;
+            
+			{
+            
+				TimeMax = MeasurmentList[i].TimeStamp;
                 IdMax = MeasurmentList[i].TempretureNumber;
                 MaxVal = Temp;
-            }
+           
+			}
+			
         }
-        return std::make_tuple(TimeMax, IdMax, MaxVal);
+        
+		return std::make_tuple(TimeMax, IdMax, MaxVal);
 		//använder tuple så jag kan få ut all tre värdena med en output så jag inte behöver använda en for loop efter functionen för att få TimeStamp och Tempreture number
-    }
+    
+	}
+
 }
 
+
 {
-    static std::tuple<std::string, std::string, double> PrintListMin(const std::vector<Measurement>& MeasurmentList)
-    {
-        double MinVal = std::numeric_limits<double>::max();
+ 
+	static std::tuple<std::string, std::string, double> PrintListMin(const std::vector<Measurement>& MeasurmentList)
+    
+	{
+    
+		double MinVal = std::numeric_limits<double>::max();
         std::string TimeMin;
         std::string IdMin;
 
         for (int i = 0; i < size(MeasurmentList); i++)
-        {
-            double temp = MeasurmentList[i].TepretureInput;
+        
+		{
+        
+			double temp = MeasurmentList[i].TepretureInput;
             if (temp < MinVal)
-            {
-                TimeMin = MeasurmentList[i].TimeStamp;
+            
+			{
+            
+				TimeMin = MeasurmentList[i].TimeStamp;
                 IdMin = MeasurmentList[i].TempretureNumber;
                 MinVal = temp;
-            }
-        }
-        return std::make_tuple(TimeMin, IdMin, MinVal);
+            
+			}
+        
+		}
+        
+		return std::make_tuple(TimeMin, IdMin, MinVal);
 		//använder tuple så jag kan få ut all tre värdena med en output så jag inte behöver använda en for loop efter functionen för att få TimeStamp och Tempreture number
-    }
+    
+	}
+
 }
+
+
 sen går den igenom Variance();
+
+
 {
+	
 	static double Variance(const std::vector<Measurement>& MeasurmentList)
+	
 	{
-	    //vector för att hålla värderna för varians
+	
+		//vector för att hålla värderna för varians
 	    std::vector<double> StandardDeviation = {};
 	    double StandAvg = SummOfVector(MeasurmentList);
 	    StandAvg = StandAvg / size(MeasurmentList);
 	    //detta subtraherar alla värderna med medelvärdet
 	    for (int i = 0; i < size(MeasurmentList); i++)
-	    {
-	        double Temp = MeasurmentList[i].TepretureInput;
+
+		{
+
+			double Temp = MeasurmentList[i].TepretureInput;
 	        double TempVar = Temp - StandAvg;
 	        StandardDeviation.push_back(TempVar);
-	    }
+	    
+		}
 	    //detta kvadrerar alla dem subtraherade nummrena
 	    for (int i = 0; i < size(StandardDeviation); i++)
-	    {
-	        double TempVar = pow(StandardDeviation[i], 2);
+	    
+		{
+	    
+			double TempVar = pow(StandardDeviation[i], 2);
 	        StandardDeviation[i] = TempVar;
-	    }
-	    // deklarering a kvadrerade tal
+	    
+		}
+	    
+		// deklarering a kvadrerade tal
 	    double Squere = 0;
 	    //loop för att addera ihop all Kvad tal
 	    for (double i : StandardDeviation)
-	    {
-	        Squere = Squere + i;
-	    }
-	    return Squere;
+	    
+		{
+	    
+			Squere = Squere + i;
+	    
+		}
+	    
+		return Squere;
+
 	}
+
 }
+
+
 efter detta så tittar den om du valde avancerade calculering moving avarage och gränsvärden
+
 {
+	
 	static std::tuple<int, int> ValueLimit(const std::vector<Measurement>& MeasurmentList, double LV)
+	
 	{
-	    int TimesOver = 0;
+	
+		int TimesOver = 0;
 	    int TimesUnder = 0;
 	    // denna for loop checkar alla gånger datan är under eller över gränsvärdet man la till
 	    for (int i = 0; i < size(MeasurmentList); i++)
-	    {
-	        double temp = MeasurmentList[i].TepretureInput;
+	    
+		{
+	    
+			double temp = MeasurmentList[i].TepretureInput;
 	        if (temp < LV)
-	        {
-	            TimesUnder++;
-	        }
-	        else if (temp > LV)
-	        {
-	            TimesOver++;
-	        }
-	    }
-	    return std::make_tuple(TimesOver, TimesUnder);
+	        
+			{
+	        
+				TimesUnder++;
+	        
+			}
+	        
+			else if (temp > LV)
+	        
+			{
+	        
+				TimesOver++;
+	        
+			}
+	    
+		}
+	    
+		return std::make_tuple(TimesOver, TimesUnder);
+	
 	}
+
 }
 
+
 {
+	
 	static double MovingAvarage(double EndBoundry, double BeginBoundry, std::vector<Measurement>& MeasurmentList)
+	
 	{
-	    double MovingAvarageTemporary = 0;
+	
+		double MovingAvarageTemporary = 0;
 	    double MovingAvgSizeTemporary = 0;
 	    while (EndBoundry < BeginBoundry)
-	    {
-	        std::cin.clear();
+	    
+		{
+	    
+			std::cin.clear();
 	        std::streamsize InputBufferLimit = 10000;
 	        std::cin.ignore(InputBufferLimit, '\n');
 	        std::cout << "EndBoundry has to be after BeginBoundry. " << std::endl;
 	        std::cout << "Enter another value: ";
-	        std::cin >> EndBoundry;
-	    }
-	    // detta går igenom från där du ville starta till där du villa sluta
+			std::cin >> EndBoundry;
+	    
+		}
+	    
+		// detta går igenom från där du ville starta till där du villa sluta
 	    for (int i = 0; i < size(MeasurmentList); i++)
-	    {
-	        int temp = MeasurmentList[i].TempretureNumber[0];
+	    
+		{
+	    
+			int temp = MeasurmentList[i].TempretureNumber[0];
 	        if (temp >= BeginBoundry)
-	        {
-	            MovingAvarageTemporary += MeasurmentList[i].TepretureInput;
+	        
+			{
+	        
+				MovingAvarageTemporary += MeasurmentList[i].TepretureInput;
 	            MovingAvgSizeTemporary++;
-	        }
-	        else if (temp == EndBoundry)
-	        {
-	            break;
-	        }
-	    }
-	    return MovingAvarageTemporary / MovingAvgSizeTemporary;
+	        
+			}
+	        
+			else if (temp == EndBoundry)
+	        
+			{
+	        
+				break;
+	        
+			}
+	    
+		}
+	    
+		return MovingAvarageTemporary / MovingAvgSizeTemporary;
+	
 	}
+
 }
 
 på rad 163–180
@@ -360,8 +505,10 @@ Case 4 – för att simulera random temperaturvärden.
 här frågar den hur många tal du vill simulera och sen matar den in random doubles in i TempretureListInput();
 vilket ger datumet temperaturen recordades och vilken ordning den skapades i och lägger in  det i vectorn
 void TempretureListInput(int i, std::vector<Measurement>& MeasurmentList, double InputTempreture)
+
 {
-    ofstream TempretureData;
+
+	ofstream TempretureData;
     
     std::cout << "[" << i + 1 << "]" << "Value: ";
     //här är för att lägga till tiden
@@ -383,39 +530,58 @@ void TempretureListInput(int i, std::vector<Measurement>& MeasurmentList, double
     //här öppnar jag upp en ny txt.fil som jag lägger in värden i
     TempretureData.open("DataVals.txt", ios::app);
     if (TempretureData.is_open())
-    {
-        //här läggs det in i txt.filen
+    
+	{
+    
+		//här läggs det in i txt.filen
         TempretureData << new_measurement.TimeStamp << ",";
         TempretureData << new_measurement.TempretureNumber << ",";
         TempretureData << new_measurement.TepretureInput << endl;
         TempretureData.close();
-    }
-    MeasurmentList.push_back(new_measurement);
+    
+	}
+    
+	MeasurmentList.push_back(new_measurement);
+
 }
 
 på rad 181–194
 Case 5 – visualisering av datan (printar "*" för temperaturvärdet).
 denna går igenom vectorn och med en simlpe calculering går en for loop och printar "*" så man ser visuellt skillnaden på temperatur värdena
+
 {
+
 	void TempretureVisulisation(const std::vector<Measurement>& MeasurmentList)
+	
 	{
-	    // går genom alla vectorer
+	    
+		// går genom alla vectorer
 	    for (int i = 0; i < size(MeasurmentList); i++)
-	    {
-	        int temp = round(MeasurmentList[i].TepretureInput);
+	
+		{
+	    
+			int temp = round(MeasurmentList[i].TepretureInput);
 	        for (int i = 0; i < round(temp / 2); i++) // for loopen printar "*" så att man kan se visualiserat hur tempraturen går ne och up
-	        {
-	            std::cout << "*";
+	        
+			{
+	        
+				std::cout << "*";
 	            //andvänder den här för att den inte bara pruntar ut alla "*" på en gång
 	            this_thread::sleep_for(chrono::seconds(1));
-	        }
-	        std::cout << "   " << MeasurmentList[i].TepretureInput << " C" << endl;
+	        
+			}
+	        
+			std::cout << "   " << MeasurmentList[i].TepretureInput << " C" << endl;
 	        std::cout << "\n";
-	    }
+	    
+		}
+	
 	}
+
 }
 
 på rad 195–197
+
 Case 6 – avslutar programmet (sätter run = false).
 gör att run boolen blir false vilket avslutar programet
 
