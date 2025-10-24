@@ -5,6 +5,8 @@ Start med deklarering av listan (DataEntries) som datan ska in i.
 
 på rad 16–18
 Efter detta så deklarerar jag klasserna så jag kan använda dem i resten av programmet och deklarerar bool run för att börja while-loopen.
+ena klassen har alla visuella functioner som printmenu(); och  PrintMeasurementList();
+den andra klassen har all functioner som behöver input som TempretureListInput(); och ReadFile();
 
 på rad 18
 Läser in specifik txt-fil med funktionen ReadFile();
@@ -131,8 +133,6 @@ Case 1 – valet för att lägga in value manuellt.
 {
     void TempretureListInput(int i, std::vector<Measurement>& MeasurmentList, double InputTempreture)
     {
-        ofstream TempretureData;
-    
         std::cout << "[" << i + 1 << "]" << "Value: ";
 
         // lägger till tiden
@@ -150,14 +150,7 @@ Case 1 – valet för att lägga in value manuellt.
     
         Measurement new_measurement{dataLabel, temp, InputTempreture };
 		//lägger in temperatur datan in i en text fil
-        TempretureData.open("DataVals.txt", ios::app);
-        if (TempretureData.is_open())
-        {
-            TempretureData << new_measurement.TimeStamp << ",";
-            TempretureData << new_measurement.TempretureNumber << ",";
-            TempretureData << new_measurement.TepretureInput << endl;
-            TempretureData.close();
-        }
+        WriteFile(new_measurement.TimeStamp, new_measurement.TempretureNumber, new_measurement.TepretureInput);
         MeasurmentList.push_back(new_measurement);
     }
 }
