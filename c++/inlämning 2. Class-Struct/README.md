@@ -1,14 +1,17 @@
 Tempreture Data Input
 
 på rad 15
+
 Start med deklarering av listan (DataEntries) som datan ska in i.
 
 på rad 16–18
+
 Efter detta så deklarerar jag klasserna så jag kan använda dem i resten av programmet och deklarerar bool run för att börja while-loopen.
 ena klassen har alla visuella functioner som printmenu(); och  PrintMeasurementList();
 den andra klassen har all functioner som behöver input som TempretureListInput(); och ReadFile();
 
 på rad 18
+
 Läser in specifik txt-fil med funktionen ReadFile();
 
 {
@@ -176,6 +179,7 @@ Case 1 – valet för att lägga in value manuellt.
 
 
 på rad 53–84
+
 Case 2 – utskrivning av värdena.
 
 {
@@ -261,6 +265,7 @@ Case 2 – utskrivning av värdena.
 
 
 på rad 85–162
+
 Case 3 – statistik av all temperaturdata.
 
 {
@@ -501,6 +506,7 @@ efter detta så tittar den om du valde avancerade calculering moving avarage och
 }
 
 på rad 163–180
+
 Case 4 – för att simulera random temperaturvärden.
 här frågar den hur många tal du vill simulera och sen matar den in random doubles in i TempretureListInput();
 vilket ger datumet temperaturen recordades och vilken ordning den skapades i och lägger in  det i vectorn
@@ -546,6 +552,7 @@ void TempretureListInput(int i, std::vector<Measurement>& MeasurmentList, double
 }
 
 på rad 181–194
+
 Case 5 – visualisering av datan (printar "*" för temperaturvärdet).
 denna går igenom vectorn och med en simlpe calculering går en for loop och printar "*" så man ser visuellt skillnaden på temperatur värdena
 
@@ -583,7 +590,9 @@ denna går igenom vectorn och med en simlpe calculering går en for loop och pri
 på rad 195–197
 
 Case 6 – avslutar programmet (sätter run = false).
+
 gör att run boolen blir false vilket avslutar programet
 
 på rad 198–201
+
 default – om man skriver ett nummer som inte är en del av menyn, skriver den ut att man ska skriva en ny input.
