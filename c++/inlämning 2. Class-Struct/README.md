@@ -2,7 +2,7 @@ Tempreture Data Input
 
 på rad 15
 
-Start med deklarering av listan (DataEntries) som datan ska in i.
+Start med deklarering av vector<Measurement> (DataEntries) som datan ska in i.
 
 på rad 16–18
 
@@ -81,6 +81,7 @@ Läser in specifik txt-fil med funktionen ReadFile();
 
 
 på rad 21–30
+
 I main while-loopen har jag en system("CLS"); i början för att cleana upp från tidigare inputs samt menyer.
 Efter det så har jag min main.PrintMenu(); funktion som bara är massa cout som skriver menyn.
 Deklarerar sedan en variabel för menyvalet Choice som jag tar igenom en funktion jag skapade:
