@@ -554,7 +554,7 @@ void TempretureListInput(int i, std::vector<Measurement>& MeasurmentList, double
 
 på rad 181–194
 
-Case 5 – visualisering av datan (printar "*" för temperaturvärdet).
+Case 5 – visualisering av datan printar "*" för temperaturvärdet.
 denna går igenom vectorn och med en simlpe calculering går en for loop och printar "*" så man ser visuellt skillnaden på temperatur värdena
 
 {
@@ -590,7 +590,7 @@ denna går igenom vectorn och med en simlpe calculering går en for loop och pri
 
 på rad 195–197
 
-Case 6 – avslutar programmet (sätter run = false).
+Case 6 – avslutar programmet.
 
 gör att run boolen blir false vilket avslutar programet
 
