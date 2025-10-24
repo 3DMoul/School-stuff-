@@ -10,24 +10,41 @@ på rad 18
 Läser in specifik txt-fil med funktionen ReadFile();
 
 {
-    ifstream TempretureFile;
-    // går igenom värdena som var innan och skickar in dem i listan
-    TempretureFile.open("DataVals.txt", ios::in);
-    if (TempretureFile.is_open())
+    
+	ifstream TempretureFile;
+    
+	// går igenom värdena som var innan och skickar in dem i listan
+    
+	TempretureFile.open("DataVals.txt", ios::in);
+   
+	if (TempretureFile.is_open())
     {
-        int times = 0;
-        std::vector<Measurement> Values(3);
-        string line;
-        // här går den igenom alla lines av txt-filen samt lägger dem in i vector som sätts in i listan
-        while (getline(TempretureFile, line))
-        {
-            char str[256];
-            strcpy_s(str, line.c_str());
-            const char* del = ",";
-            Measurement new_measurement;
-            char* next_token = nullptr;
-            char* FileSegment = strtok_s(str, del, &next_token);
-            int FileIteration = 0;
+      
+		int times = 0;
+       
+		std::vector<Measurement> Values(3);
+        
+		string line;
+        
+		// här går den igenom alla lines av txt-filen samt lägger dem in i vector som sätts in i listan
+      
+		while (getline(TempretureFile, line))
+       
+		{
+           
+			char str[256];
+           
+			strcpy_s(str, line.c_str());
+           
+			const char* del = ",";
+           
+			Measurement new_measurement;
+           
+			char* next_token = nullptr;
+           
+			char* FileSegment = strtok_s(str, del, &next_token);
+           
+			int FileIteration = 0;
 
             while (FileSegment != nullptr) 
             {
@@ -44,13 +61,17 @@ Läser in specifik txt-fil med funktionen ReadFile();
                     new_measurement.TepretureInput = stod(FileSegment);
                 }
 
-                FileSegment = strtok_s(nullptr, del, &next_token);
-                FileIteration++;
+               
+				FileSegment = strtok_s(nullptr, del, &next_token);
+              
+				FileIteration++;
             }
             MeasurmentList.push_back(new_measurement);
         }
     }
-    TempretureFile.close();
+  
+	TempretureFile.close();
+
 }
 
 
