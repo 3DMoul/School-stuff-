@@ -149,7 +149,7 @@ Case 1 – valet för att lägga in value manuellt.
         std::cout << dataLabel << std::endl;
     
         Measurement new_measurement{dataLabel, temp, InputTempreture };
-
+		//lägger in temperatur datan in i en text fil
         TempretureData.open("DataVals.txt", ios::app);
         if (TempretureData.is_open())
         {
@@ -251,6 +251,7 @@ PrintListMax(); PrintListMin(); hittar max och min values av vectoren
             }
         }
         return std::make_tuple(TimeMax, IdMax, MaxVal);
+		//använder tuple så jag kan få ut all tre värdena med en output så jag inte behöver använda en for loop efter functionen för att få TimeStamp och Tempreture number
     }
 }
 
@@ -272,6 +273,7 @@ PrintListMax(); PrintListMin(); hittar max och min values av vectoren
             }
         }
         return std::make_tuple(TimeMin, IdMin, MinVal);
+		//använder tuple så jag kan få ut all tre värdena med en output så jag inte behöver använda en for loop efter functionen för att få TimeStamp och Tempreture number
     }
 }
 sen går den igenom Variance();
