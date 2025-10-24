@@ -12,11 +12,25 @@
 #include <tuple>
 #include <fstream>
 #include "Measurement.h"
-using namespace std; 
+using namespace std;
 
 class DataInput
 {
 public:
+    void WriteFile(std::string TimeStamp, std::string TempretureNumber, double Temperature)
+    {
+        ofstream TempretureData;
+        //här öppnar jag upp en ny txt.fil som jag lägger in värden i
+        TempretureData.open("DataVals.txt", ios::app);
+        if (TempretureData.is_open())
+        {
+            //här läggs det in i txt.filen
+            TempretureData << TimeStamp << ",";
+            TempretureData << TempretureNumber << ",";
+            TempretureData << Temperature << endl;
+            TempretureData.close();
+        }
+    }
     void ReadFile(std::vector<Measurement>& MeasurmentList)
     {
         ifstream TempretureFile;
@@ -37,7 +51,7 @@ public:
                 char* next_token = nullptr;
                 char* FileSegment = strtok_s(str, del, &next_token);
                 int FileIteration = 0;
-                while (FileSegment != nullptr) 
+                while (FileSegment != nullptr)
                 {
                     if (FileIteration == 0)
                     {
@@ -51,10 +65,12 @@ public:
                     {
                         new_measurement.TepretureInput = stod(FileSegment);
                     }
-                    
+
                     FileSegment = strtok_s(nullptr, del, &next_token);
                     FileIteration++;
                 }
+
+                
                 MeasurmentList.push_back(new_measurement);
             }
         }
@@ -62,8 +78,8 @@ public:
     }
     void TempretureListInput(int i, std::vector<Measurement>& MeasurmentList, double InputTempreture)
     {
-        ofstream TempretureData;
         
+
         std::cout << "[" << i + 1 << "]" << "Value: ";
         //här är för att lägga till tiden
         time_t TimeStamp;
@@ -73,24 +89,16 @@ public:
         char temp[26];
         asctime_s(temp, sizeof(temp), &timeInfo);
         temp[strlen(temp) - 1] = '\0'; // tar bort newline
-        
+
         //new_measurement.TimeStamp = temp;
         //detta är för att ge nummeret på vilken värde det är
         std::string convert = std::to_string((size(MeasurmentList) + 1));
         std::string dataLabel = convert + "#";
         std::cout << dataLabel << std::endl;
-        
-        Measurement new_measurement{dataLabel, temp, InputTempreture };
+
+        Measurement new_measurement{ dataLabel, temp, InputTempreture };
         //här öppnar jag upp en ny txt.fil som jag lägger in värden i
-        TempretureData.open("DataVals.txt", ios::app);
-        if (TempretureData.is_open())
-        {
-            //här läggs det in i txt.filen
-            TempretureData << new_measurement.TimeStamp << ",";
-            TempretureData << new_measurement.TempretureNumber << ",";
-            TempretureData << new_measurement.TepretureInput << endl;
-            TempretureData.close();
-        }
+        WriteFile(new_measurement.TimeStamp, new_measurement.TempretureNumber, new_measurement.TepretureInput);
         MeasurmentList.push_back(new_measurement);
     }
     static std::tuple<int, int> ValueLimit(const std::vector<Measurement>& MeasurmentList, double LV)
