@@ -3,7 +3,7 @@ Tempreture Data Input
 på rad 15
 Start med deklarering av listan (DataEntries) som datan ska in i.
 
-på rad 16–17
+på rad 16–18
 Efter detta så deklarerar jag klasserna så jag kan använda dem i resten av programmet och deklarerar bool run för att börja while-loopen.
 
 på rad 18
