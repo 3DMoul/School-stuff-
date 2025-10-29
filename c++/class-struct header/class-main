@@ -1,0 +1,13 @@
+#include <iostream>
+#include <string>
+#include "device.h"
+
+int main()
+{
+    //man måste först ge konstrucktorn värderna som den ska ha så man kan använda resten av functionerna
+    //(1, "this name")
+    Device Device(1, "this name");
+    Device.Rename("superdevice");
+    Device.Print();
+}
+
