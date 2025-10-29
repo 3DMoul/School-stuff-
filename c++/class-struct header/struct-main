@@ -1,0 +1,11 @@
+#include <iostream>
+#include "device.h"
+Device Dev;
+int main()
+{
+	for (double i = 0; i < 10; i++)
+	{
+		Dev.move(i + 0.15, i + 0.30);
+		Dev.print();
+	}	
+}
