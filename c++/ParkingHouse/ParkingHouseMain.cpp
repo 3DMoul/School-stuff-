@@ -3,8 +3,6 @@
 #include "car.h"
 #include "parkeringshus.h"
 #include "extrafunc.h"
-//#include "RandomReg.cpp"
-
 using namespace std;
 
 int main()
@@ -28,3 +26,4 @@ int main()
 	ParkingHouse.printStatus();
 
 }
+
